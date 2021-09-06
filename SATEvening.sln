@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SATEvening", "SATEvening\SATEvening.csproj", "{6A0B83F7-0763-4B8F-9B9E-A130FD1E0EB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SATEvening.Web", "SATEvening\SATEvening.Web.csproj", "{6A0B83F7-0763-4B8F-9B9E-A130FD1E0EB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F68BE811-AE89-4336-9CBD-A1E8B2149D2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,5 +23,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8235C884-A667-4CCA-9EBD-10ECB5EC35B4}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6A0B83F7-0763-4B8F-9B9E-A130FD1E0EB1} = {F68BE811-AE89-4336-9CBD-A1E8B2149D2B}
 	EndGlobalSection
 EndGlobal
