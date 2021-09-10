@@ -12,5 +12,8 @@ namespace SATEvening.BLL.Services
         User GetByEmail(string email);
         Task<SignInResult> Authenticate(User user, string password);
         Task<IdentityResult> Create(User user, string password);
+        Task<IdentityResult> Update(User user);
+        Task<IdentityResult> Delete(User user);
+
     }
 }
