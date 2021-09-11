@@ -22,5 +22,13 @@
 
   <ItemGroup>
     <None Remove="Moq" />
+    <None Remove="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SATEvening.DAL\SATEvening.DAL.csproj" />
+    <ProjectReference Include="..\..\src\SATEvening.BLL\SATEvening.BLL.csproj" />
   </ItemGroup>
 </Project>
