@@ -12,11 +12,6 @@ namespace SATEvening.DAL.Repository
         {
         }
 
-        public Task<SignInResult> Authenticate(AppUser user, string password)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IdentityResult> Create(AppUser user, string password)
         {
             throw new NotImplementedException();
