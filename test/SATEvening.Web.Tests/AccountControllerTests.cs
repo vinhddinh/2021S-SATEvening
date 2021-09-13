@@ -19,6 +19,8 @@ namespace SATEvening.Web.Tests
 
         }
 
+        #region Registration
+
         [Fact]
         public async Task ValidRegistrationDetailsShouldReturnOkResponse()
         {
@@ -33,6 +35,7 @@ namespace SATEvening.Web.Tests
 
             var result = await controller.Register(user);
 
+            Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
         }
 
@@ -44,12 +47,13 @@ namespace SATEvening.Web.Tests
             var mockUserStore = new Mock<IUserStore<AppUser>>();
             var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
 
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed());
+            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "model is null or missing details" }));
 
             var controller = new AccountController(mockUserManager.Object);
 
             var result = await controller.Register(user);
 
+            Assert.NotNull(result);
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
@@ -61,13 +65,16 @@ namespace SATEvening.Web.Tests
             var mockUserStore = new Mock<IUserStore<AppUser>>();
             var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
 
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed());
+            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
 
             var controller = new AccountController(mockUserManager.Object);
 
             var result = await controller.Register(user);
 
+            Assert.NotNull(result);
             Assert.IsType<BadRequestObjectResult>(result);
         }
+
+        #endregion
     }
 }
