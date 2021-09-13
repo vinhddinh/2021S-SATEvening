@@ -24,7 +24,7 @@ namespace SATEvening.Web.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] UserModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || model !=null)
             {
                 var user = new User { Email = model.Email, UserName = model.UserName, FirstName = model.UserName, LastName = model.LastName };
 
