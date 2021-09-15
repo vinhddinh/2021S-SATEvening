@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -85,14 +86,19 @@ namespace SATEvening.Web.Tests
         {
             var login = new UserLoginModel { UserName = "test123", Password = "1@testL" };
 
-            var users = new List<User> { new User { UserName = "test123", PasswordHash = "1@testL" } };
+            var user = new User { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
 
             var mockUserStore = new Mock<IUserStore<AppUser>>();
             var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+            var mockContextAccessor = new Mock<IHttpContextAccessor>();
+            var mockUserPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<AppUser>>();
 
-            var mockSignInManager = new Mock<SignInManager<AppUser>>(mockUserManager.Object);
+            var mockSignInManager = new Mock<SignInManager<AppUser>>(mockUserManager.Object, mockContextAccessor.Object, mockUserPrincipalFactory.Object, null, null, null, null);
+
 
             mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
+
+            mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
 
             var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object);
 
