@@ -26,7 +26,7 @@ namespace SATEvening.Web.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] UserModel model)
         {
-            if (ModelState.IsValid || model !=null)
+            if (ModelState.IsValid || model != null)
             {
                 var user = new User { Email = model.Email, UserName = model.UserName, FirstName = model.UserName, LastName = model.LastName };
 
@@ -43,9 +43,30 @@ namespace SATEvening.Web.Controllers
             return new BadRequestObjectResult(new { Message = "Registration Failed: Invalid Input" });
         }
 
-        public Task<IActionResult> Login(UserLoginModel loginModel)
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginModel model)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid || model == null)
+            {
+                return new BadRequestObjectResult(new { Message = "Login Failed: Invalid Input" });
+            }
+
+            var user = await _userManager.FindByNameAsync(model.UserName);
+
+            if (user == null)
+            {
+                return new BadRequestObjectResult(new { Message = "Username could not be found" });
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = "User Registration was Successful" });
+            }
+
+            return new BadRequestObjectResult(new { Message = "Login Failed: Incorrect Password" });
         }
     }
 }
