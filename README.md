@@ -14,3 +14,11 @@ Scheduling assistant tool
   <br/>
   Responsible for interacting with database and performing CRUD operations.
 </details>
+
+
+## Contributing
+1. Clone Project (`git clone https://github.com/utssds/2021S-SATEvening.git`)
+2. Create a branch for feature (`git checkout -b myfeature`)
+3. Commit your Changes (`git commit -m 'Add My Feature'`)
+4. Push to the Branch (`git push origin myfeature`)
+5. Open a Pull Request
