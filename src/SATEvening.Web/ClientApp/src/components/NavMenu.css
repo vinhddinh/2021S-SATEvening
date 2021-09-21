@@ -13,6 +13,15 @@ html {
   }
 }
 
+.header {
+    text-align: center;
+    background: #000000;
+    opacity: 0.8;
+    font-size: 30px;
+    font-family: Arial;
+    font-weight:bold
+}
+
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }

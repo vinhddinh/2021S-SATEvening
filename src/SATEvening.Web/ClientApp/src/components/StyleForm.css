@@ -1,0 +1,14 @@
+﻿.center {
+    text-align: center
+}
+
+.bg {background-image: url("../assets/UTSB.jpg");
+     background-size: auto;
+}
+
+.child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
