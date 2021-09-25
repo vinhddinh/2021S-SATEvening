@@ -24,7 +24,7 @@ Scheduling assistant tool
 * React
 * Bootstrap CSS
 ### Testing
-xUnit for .NET Core
+* xUnit for .NET Core
 
 
 ## Contributing
