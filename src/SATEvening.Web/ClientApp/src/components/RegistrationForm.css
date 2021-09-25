@@ -1,0 +1,39 @@
+﻿﻿.center {
+    text-align: center
+}
+
+.horizontalCenter {
+    margin: 0 auto;
+}
+
+.form {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ebebeb;
+    padding: 2%;
+}
+
+.additionalInfo {
+    font-size: xx-small;
+    text-align: right;
+}
+
+.labelText {
+    font-size: small;
+}
+
+.button {
+    border-radius: 2px;
+    background-color: #0f4beB;
+    color: white;
+    border: none;
+}
+
+.subButton {
+    background-color: transparent;
+    color: #0f4beB;
+    font-size: x-small;
+    border: none;
+}
