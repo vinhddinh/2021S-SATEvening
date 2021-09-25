@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './StyleForm.css';
-import logo from '../assets/UTSB.png';
+import { Link } from 'react-router-dom';
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -41,7 +41,7 @@ export class Home extends Component {
                 <h1 className="center"> Create Account </h1>
                 <p className="centers"> Register for an account below </p>
                 <div className="center">
-                    <input className="button" type="submit" value="Register" style={{ width: "150px" }} />
+                    <Link to="/register"><button className="button">Register</button></Link>
                 </div>
             </div>
         </div>
