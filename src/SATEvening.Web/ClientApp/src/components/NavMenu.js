@@ -1,24 +1,8 @@
 import React, { Component } from 'react';
-import { NavItem, NavLink, Navbar, Container, NavbarBrand, NavbarToggler, Collapse } from "reactstrap";
 import './NavMenu.css';
 
 export class Sidebar extends Component {
-  static displayName = Navbar.name;
-
-  constructor(props) {
-    super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
-  }
-
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
+  static displayName = Sidebar.name;
 
   render () {
     return (
