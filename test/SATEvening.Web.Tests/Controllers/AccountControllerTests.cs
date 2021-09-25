@@ -28,8 +28,7 @@ namespace SATEvening.Web.Tests
         {
             var user = new UserModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
 
-            var mockUserStore = new Mock<IUserStore<AppUser>>();
-            var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+            var mockUserManager = GetUserManager();
 
             mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
 
@@ -46,8 +45,7 @@ namespace SATEvening.Web.Tests
         {
             var user = new UserModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
 
-            var mockUserStore = new Mock<IUserStore<AppUser>>();
-            var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+            var mockUserManager = GetUserManager();
 
             mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "model is null or missing details" }));
 
@@ -64,8 +62,7 @@ namespace SATEvening.Web.Tests
         {
             var user = new UserModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
 
-            var mockUserStore = new Mock<IUserStore<AppUser>>();
-            var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+            var mockUserManager = GetUserManager();
 
             mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
 
@@ -88,12 +85,8 @@ namespace SATEvening.Web.Tests
 
             var user = new User { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
 
-            var mockUserStore = new Mock<IUserStore<AppUser>>();
-            var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
-            var mockContextAccessor = new Mock<IHttpContextAccessor>();
-            var mockUserPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<AppUser>>();
-
-            var mockSignInManager = new Mock<SignInManager<AppUser>>(mockUserManager.Object, mockContextAccessor.Object, mockUserPrincipalFactory.Object, null, null, null, null);
+            var mockSignInManager = GetSignInManager();
+            var mockUserManager = GetUserManager();
 
 
             mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
@@ -106,6 +99,30 @@ namespace SATEvening.Web.Tests
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
+        }
+
+        #endregion
+
+        #region MockManager
+
+        private Mock<UserManager<AppUser>> GetUserManager()
+        {
+            var mockUserStore = new Mock<IUserStore<AppUser>>();
+            var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+
+            return mockUserManager;
+        }
+
+        private Mock<SignInManager<AppUser>> GetSignInManager()
+        {
+            var mockUserStore = new Mock<IUserStore<AppUser>>();
+            var mockUserManager = new Mock<UserManager<AppUser>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+            var mockContextAccessor = new Mock<IHttpContextAccessor>();
+            var mockUserPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<AppUser>>();
+
+            var mockSignInManager = new Mock<SignInManager<AppUser>>(mockUserManager.Object, mockContextAccessor.Object, mockUserPrincipalFactory.Object, null, null, null, null);
+
+            return mockSignInManager;
         }
 
         #endregion
