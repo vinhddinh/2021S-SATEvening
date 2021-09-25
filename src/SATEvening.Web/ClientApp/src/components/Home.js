@@ -7,44 +7,44 @@ export class Home extends Component {
 
   render () {
       return (
-          <div className = "bg">
-          <div className ="child">
-              <h1 className = "center"> Log In </h1>
-              <form>
-                  <div>
-                  <label>
-                      <div>
-                          Email Address:
-                      </div>
-                      <div>
-                              <input type="text" name="Email Address" style={{ width: "350px" }}/>
-                      </div>
-                      </label>
-                  </div>
-                  <div>
-                  <label>
-                      <div>
-                          Password:
+        <div className = "bg">
+            <div className ="child">
+                <h1 className = "center"> Log In </h1>
+                <form>
+                    <div>
+                        <label>
+                            <div>
+                                Email Address:
+                            </div>
+                            <div>
+                                <input type="text" name="Email Address" style={{ width: "350px" }}/>
+                            </div>
+                        </label>
                     </div>
-                          <input type="text" name="Password" style={{ width: "350px" }}/>
-                      </label>
-                      </div>
-                      <div className="center">
-                          <input className="button" type="submit" value="Log In" style={{ width: "150px" }} />
-                      </div>
-                      <div className="center">
-                          <input className="subButton" type="submit" value="Forgot My Password" style={{ width: "150px" }} />
-                      </div>
-              </form>
-              </div>
-              <div className="childs">
-                  <h1 className="center"> Create Account </h1>
-                  <p className="centers"> Register for an account below </p>
-                  <div className="center">
-                      <input className="button" type="submit" value="Register" style={{ width: "150px" }} />
-                  </div>
-              </div>
-              </div>
+                    <div>
+                        <label>
+                            <div>
+                                Password:
+                            </div>
+                            <input type="text" name="Password" style={{ width: "350px" }}/>
+                        </label>
+                    </div>
+                    <div className="center">
+                        <input className="button" type="submit" value="Log In" style={{ width: "150px" }} />
+                    </div>
+                    <div className="center">
+                        <input className="subButton" type="submit" value="Forgot My Password" style={{ width: "150px" }} />
+                    </div>
+                </form>
+                </div>
+            <div className="childs">
+                <h1 className="center"> Create Account </h1>
+                <p className="centers"> Register for an account below </p>
+                <div className="center">
+                    <input className="button" type="submit" value="Register" style={{ width: "150px" }} />
+                </div>
+            </div>
+        </div>
     );
   }
 }
