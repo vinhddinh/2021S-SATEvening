@@ -7,7 +7,7 @@ export class RegistrationForm extends Component {
     render() {
         return (
             <div clasName="bg">
-                <div className="child">
+                <div className="form">
                     <h1 className="center"> Registration Form </h1>
                     <form>
                         <div>
