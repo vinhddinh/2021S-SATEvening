@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './NavMenu.css';
+import './Sidebar.css';
 
 export class Sidebar extends Component {
   static displayName = Sidebar.name;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-import { Sidebar } from './NavMenu';
-import "./NavMenu.css";
+import { Sidebar } from './Sidebar';
+import "./Sidebar.css";
 
 export class Layout extends Component {
   static displayName = Layout.name;
