@@ -15,6 +15,17 @@ Scheduling assistant tool
   Responsible for interacting with database and performing CRUD operations.
 </details>
 
+## Technology Stack Overview
+### Backend
+* ASP.NET Core
+* Entity Framework Core with EF Migrations
+* SQLite as development database
+### Frontend
+* React
+* Bootstrap CSS
+### Testing
+xUnit for .NET Core
+
 
 ## Contributing
 1. Clone Project (`git clone https://github.com/utssds/2021S-SATEvening.git`)
