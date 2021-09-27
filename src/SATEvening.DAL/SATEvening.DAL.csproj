@@ -15,6 +15,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite.Core" />
     <None Remove="Microsoft.AspNetCore.Identity" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
