@@ -7,18 +7,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SATEvening.BLL.Models;
+using SATEvening.BLL.Services;
 using SATEvening.DAL.Models;
 using SATEvening.Web.Controllers;
-using SATEvening.Web.Models;
 using Xunit;
 
 namespace SATEvening.Web.Tests
 {
     public class AccountControllerTests
     {
+        private readonly Mock<UserManager<AppUser>> _mockUserManager;
+        private readonly Mock<SignInManager<AppUser>> _mockSignInManager;
+        private readonly AccountController _controller;
+
         public AccountControllerTests()
         {
-
+            _mockUserManager = GetUserManager();
+            _mockSignInManager = GetSignInManager();
+            _controller = new AccountController(new AuthService(_mockUserManager.Object, _mockSignInManager.Object));
         }
 
         #region Registration
@@ -26,32 +32,23 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task ValidRegistrationDetailsShouldReturnOkResponse()
         {
-            var user = new UserModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
+            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
 
-            var mockUserManager = GetUserManager();
-
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
-
-            var controller = new AccountController(mockUserManager.Object, null);
-
-            var result = await controller.Register(user);
+            var result = await _controller.Register(user);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
-        public async Task MissingRegistrationDetailsShouldReturnBadResponse()
+        public async Task RegisterFailureShouldReturnBadResponse()
         {
-            var user = new UserModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
-
-            var mockUserManager = GetUserManager();
-
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "model is null or missing details" }));
-
-            var controller = new AccountController(mockUserManager.Object, null);
-
-            var result = await controller.Register(user);
+            var user = new UserRequestModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(
+                IdentityResult.Failed(new IdentityError { Description = "registration failure with asp.net identity" }));
+           
+            var result = await _controller.Register(user);
 
             Assert.NotNull(result);
             Assert.IsType<BadRequestObjectResult>(result);
@@ -60,15 +57,23 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task InvalidRegistrationDetailsShouldReturnBadResponse()
         {
-            var user = new UserModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
+            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
 
-            var mockUserManager = GetUserManager();
+            var result = await _controller.Register(user);
 
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
 
-            var controller = new AccountController(mockUserManager.Object, null);
+        [Fact]
+        public async Task RegisteringWithExistingUserNameShouldReturnBadResponse()
+        {
+            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(value: null);
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
 
-            var result = await controller.Register(user);
+            var result = await _controller.Register(user);
 
             Assert.NotNull(result);
             Assert.IsType<BadRequestObjectResult>(result);
@@ -81,24 +86,41 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task CorrectLoginDetailsShouldReturnOkResponse()
         {
-            var login = new UserLoginModel { UserName = "test123", Password = "1@testL" };
+            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL" };
+            var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123" };
+            _mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
 
-            var user = new User { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
-
-            var mockSignInManager = GetSignInManager();
-            var mockUserManager = GetUserManager();
-
-
-            mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
-
-            mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
-
-            var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object);
-
-            var result = await controller.Login(login);
+            var result = await _controller.Login(login);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task IncorrectPasswordShouldReturnBadResponse()
+        {
+            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL12435456" };
+            var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
+            _mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
+
+            var result = await _controller.Login(login);
+
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task InvalidEmailOnSignInShouldReturnBadResponse()
+        {
+            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL12435456" };
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(value: null);
+
+            var result = await _controller.Login(login);
+
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         #endregion

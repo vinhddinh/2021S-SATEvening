@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SATEvening.BLL.Services;
+using SATEvening.BLL.Services.Interfaces;
 using SATEvening.DAL.Contexts;
 using SATEvening.DAL.Models;
 
@@ -40,6 +42,8 @@ namespace SATEvening
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDataContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>

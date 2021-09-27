@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SATEvening.Web.Models
+namespace SATEvening.BLL.Models
 {
-    public class UserLoginModel
+    public class LoginRequestModel
     {
         [Required]
         public string UserName { get; set; }

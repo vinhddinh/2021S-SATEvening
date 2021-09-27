@@ -4,12 +4,9 @@ using SATEvening.DAL.Models;
 
 namespace SATEvening.BLL.Models
 {
-    public class User : AppUser
+    public class UserRequestModel : AppUser
     {
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
+        public string Password { get; set; }
     }
 }
