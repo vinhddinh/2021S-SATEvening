@@ -21,6 +21,12 @@ namespace SATEvening.BLL.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly JWTOptions _jwt;
 
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
         public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<JWTOptions> jwt)
         {
             _userManager = userManager;
