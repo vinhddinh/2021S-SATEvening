@@ -7,7 +7,7 @@ namespace SATEvening.BLL.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<string> RegisterAsync(User user, string password);
-        Task<string> LoginAsync(User user, string password);
+        Task<UserResponseModel> RegisterAsync(UserRequestModel user);
+        Task<UserResponseModel> LoginAsync(LoginRequestModel user);
     }
 }
