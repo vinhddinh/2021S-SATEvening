@@ -1,11 +1,17 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SATEvening.BLL.Exceptions;
 using SATEvening.BLL.Models;
 using SATEvening.BLL.Services.Interfaces;
 using SATEvening.DAL.Models;
+using SATEvening.Web.Settings;
 
 namespace SATEvening.BLL.Services
 {
@@ -13,11 +19,13 @@ namespace SATEvening.BLL.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly JWTOptions _jwt;
 
-        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<JWTOptions> jwt)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _jwt = jwt.Value;
         }
 
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
@@ -71,6 +79,40 @@ namespace SATEvening.BLL.Services
         private async Task<AppUser> FindUserByName(string username)
         {
             return await _userManager.FindByNameAsync(username);
+        }
+
+        private string GenerateToken(AppUser user)
+        {
+            var claims = BuildClaims(user);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
+
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var jwt = CreateJwtSecurityToken(claims, signingCredentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        private Claim[] BuildClaims(AppUser user)
+        {
+            return new []
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+        }
+
+        private JwtSecurityToken CreateJwtSecurityToken(Claim[] claims, SigningCredentials signingCredentials)
+        {
+            return new JwtSecurityToken(
+                    issuer: _jwt.Issuer,
+                    audience: _jwt.Issuer,
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(_jwt.LifeTimeInMinutes),
+                    signingCredentials: signingCredentials
+                );
         }
     }
 }
