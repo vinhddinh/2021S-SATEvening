@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SATEvening.BLL.Models;
+using SATEvening.BLL.Services;
+using SATEvening.BLL.Services.Interfaces;
 using SATEvening.DAL.Models;
 using SATEvening.Web.Controllers;
-using SATEvening.Web.Models;
 using Xunit;
 
 namespace SATEvening.Web.Tests
@@ -26,13 +27,11 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task ValidRegistrationDetailsShouldReturnOkResponse()
         {
-            var user = new UserModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
-
+            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
             var mockUserManager = GetUserManager();
-
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
-
-            var controller = new AccountController(mockUserManager.Object, null);
+            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+            var authService = new AuthService(mockUserManager.Object, null);
+            var controller = new AccountController(authService);
 
             var result = await controller.Register(user);
 
@@ -43,14 +42,12 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task MissingRegistrationDetailsShouldReturnBadResponse()
         {
-            var user = new UserModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
-
+            var user = new UserRequestModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
             var mockUserManager = GetUserManager();
-
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "model is null or missing details" }));
-
-            var controller = new AccountController(mockUserManager.Object, null);
-
+            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "model is null or missing details" }));
+            var authService = new AuthService(mockUserManager.Object, null);
+            var controller = new AccountController(authService);
+           
             var result = await controller.Register(user);
 
             Assert.NotNull(result);
@@ -60,13 +57,11 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task InvalidRegistrationDetailsShouldReturnBadResponse()
         {
-            var user = new UserModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
-
+            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
             var mockUserManager = GetUserManager();
-
-            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
-
-            var controller = new AccountController(mockUserManager.Object, null);
+            mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
+            var authService = new AuthService(mockUserManager.Object, null);
+            var controller = new AccountController(authService);
 
             var result = await controller.Register(user);
 
@@ -81,19 +76,16 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task CorrectLoginDetailsShouldReturnOkResponse()
         {
-            var login = new UserLoginModel { UserName = "test123", Password = "1@testL" };
-
-            var user = new User { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
+            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL" };
+            var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123" };
 
             var mockSignInManager = GetSignInManager();
+            mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
             var mockUserManager = GetUserManager();
-
-
-            mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
-
             mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
 
-            var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object);
+            var authService = new AuthService(mockUserManager.Object, mockSignInManager.Object);
+            var controller = new AccountController(authService);
 
             var result = await controller.Login(login);
 

@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SATEvening.BLL.Exceptions;
 using SATEvening.BLL.Models;
 using SATEvening.BLL.Services.Interfaces;
-using SATEvening.DAL.Models;
-using SATEvening.Web.Models;
 
 namespace SATEvening.Web.Controllers
 {
