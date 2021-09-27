@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SATEvening.BLL.Models;
 using SATEvening.BLL.Services;
-using SATEvening.BLL.Services.Interfaces;
 using SATEvening.DAL.Models;
 using SATEvening.Web.Controllers;
 using Xunit;
@@ -25,8 +24,7 @@ namespace SATEvening.Web.Tests
         {
             _mockUserManager = GetUserManager();
             _mockSignInManager = GetSignInManager();
-            var authService = new AuthService(_mockUserManager.Object, _mockSignInManager.Object);
-            _controller = new AccountController(authService);
+            _controller = new AccountController(new AuthService(_mockUserManager.Object, _mockSignInManager.Object));
         }
 
         #region Registration
@@ -68,6 +66,19 @@ namespace SATEvening.Web.Tests
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
+        [Fact]
+        public async Task RegisteringWithExistingUserNameShouldReturnBadResponse()
+        {
+            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(value: null);
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
+
+            var result = await _controller.Register(user);
+
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
         #endregion
 
         #region SignIn
@@ -77,7 +88,6 @@ namespace SATEvening.Web.Tests
         {
             var login = new LoginRequestModel { UserName = "test123", Password = "1@testL" };
             var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123" };
-
             _mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
             _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
 
