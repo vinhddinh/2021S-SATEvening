@@ -44,10 +44,11 @@ namespace SATEvening.Web.Tests
         }
 
         [Fact]
-        public async Task MissingRegistrationDetailsShouldReturnBadResponse()
+        public async Task RegisterFailureShouldReturnBadResponse()
         {
             var user = new UserRequestModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
-            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "model is null or missing details" }));
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(
+                IdentityResult.Failed(new IdentityError { Description = "registration failure with asp.net identity" }));
            
             var result = await _controller.Register(user);
 
