@@ -20,12 +20,26 @@ namespace SATEvening.BLL.Services
 
         public async Task<string> LoginAsync(User user, string password)
         {
-            if (UserExists())
+            var existingUser = FindUserByName(user.UserName);
+
+            if (existingUser == null)
+            {
+                return string.Format("Login Failed: Username {0} could not be found", user.UserName);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return "User Login was Successful";
+            }
+
+            return "Login Failed: The password was invalid";
         }
 
         public async Task<string> RegisterAsync(User user, string password)
         {
-            var isExistingUser = await _userManager.FindByNameAsync(user.UserName) != null;
+            var isExistingUser = await FindUserByName(user.UserName) != null;
 
             if (isExistingUser)
             {
@@ -40,6 +54,11 @@ namespace SATEvening.BLL.Services
             }
 
             return string.Format("Registration Failed with the following errors {0}", result.Errors);
+        }
+
+        private async Task<AppUser> FindUserByName(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
         }
     }
 }
