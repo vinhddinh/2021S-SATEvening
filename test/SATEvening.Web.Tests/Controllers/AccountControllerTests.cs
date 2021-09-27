@@ -97,6 +97,32 @@ namespace SATEvening.Web.Tests
             Assert.IsType<OkObjectResult>(result);
         }
 
+        [Fact]
+        public async Task IncorrectPasswordShouldReturnBadResponse()
+        {
+            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL12435456" };
+            var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
+            _mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
+
+            var result = await _controller.Login(login);
+
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task InvalidEmailOnSignInShouldReturnBadResponse()
+        {
+            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL12435456" };
+            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(value: null);
+
+            var result = await _controller.Login(login);
+
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
         #endregion
 
         #region MockManager
