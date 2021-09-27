@@ -10,6 +10,7 @@ using SATEvening.BLL.Models;
 using SATEvening.BLL.Services;
 using SATEvening.DAL.Models;
 using SATEvening.Web.Controllers;
+using SATEvening.Web.Tests.Fakes;
 using Xunit;
 
 namespace SATEvening.Web.Tests
@@ -24,7 +25,7 @@ namespace SATEvening.Web.Tests
         {
             _mockUserManager = GetUserManager();
             _mockSignInManager = GetSignInManager();
-            _controller = new AccountController(new AuthService(_mockUserManager.Object, _mockSignInManager.Object));
+            _controller = new AccountController(new AuthService(_mockUserManager.Object, _mockSignInManager.Object, new FakeTokenService()));
         }
 
         #region Registration
