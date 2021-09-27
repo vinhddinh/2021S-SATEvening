@@ -19,7 +19,7 @@ namespace SATEvening.BLL.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly JWTOptions _jwt;
+        private readonly ITokenService _tokenService;
 
         public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
@@ -27,11 +27,11 @@ namespace SATEvening.BLL.Services
             _signInManager = signInManager;
         }
 
-        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOptions<JWTOptions> jwt)
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _jwt = jwt.Value;
+            _tokenService = tokenService;
         }
 
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
@@ -54,7 +54,8 @@ namespace SATEvening.BLL.Services
             {
                 UserName = existingUser.UserName,
                 FullName = string.Join(" ", existingUser.FirstName, existingUser.LastName),
-                Email = existingUser.Email
+                Email = existingUser.Email,
+                Token = _tokenService.GenerateToken(existingUser)
             };
         }
 
@@ -78,47 +79,14 @@ namespace SATEvening.BLL.Services
             {
                 UserName = user.UserName,
                 FullName = string.Join(" ", user.FirstName, user.LastName),
-                Email = user.Email
+                Email = user.Email,
+                Token = _tokenService.GenerateToken(user)
             };
         }
 
         private async Task<AppUser> FindUserByName(string username)
         {
             return await _userManager.FindByNameAsync(username);
-        }
-
-        private string GenerateToken(AppUser user)
-        {
-            var claims = BuildClaims(user);
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
-
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var jwt = CreateJwtSecurityToken(claims, signingCredentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
-        }
-
-        private Claim[] BuildClaims(AppUser user)
-        {
-            return new []
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email)
-            };
-        }
-
-        private JwtSecurityToken CreateJwtSecurityToken(Claim[] claims, SigningCredentials signingCredentials)
-        {
-            return new JwtSecurityToken(
-                    issuer: _jwt.Issuer,
-                    audience: _jwt.Issuer,
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(_jwt.LifeTimeInMinutes),
-                    signingCredentials: signingCredentials
-                );
         }
     }
 }

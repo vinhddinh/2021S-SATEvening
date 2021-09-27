@@ -1,7 +1,10 @@
 ﻿using System;
+using SATEvening.DAL.Models;
+
 namespace SATEvening.BLL.Services.Interfaces
 {
-    public interface EmptyInterface
+    public interface ITokenService
     {
+        string GenerateToken(AppUser user);
     }
 }
