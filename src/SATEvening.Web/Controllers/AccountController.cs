@@ -23,7 +23,6 @@ namespace SATEvening.Web.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] UserRequestModel model)
         {
-
             if (!ModelState.IsValid || model == null)
             {
                 return new BadRequestObjectResult(new { Message = "Registration Failed: Invalid Input" });
