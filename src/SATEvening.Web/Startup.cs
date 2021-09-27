@@ -49,6 +49,7 @@ namespace SATEvening
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenService, TokenService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
