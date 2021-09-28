@@ -5,6 +5,7 @@ import { Profile } from './components/Profile/Profile';
 import { Availability } from './components/Availability/Availability';
 import { RegistrationForm } from './components/Registration/RegistrationForm';
 import './custom.css'
+import { LayoutNavMenu, LayoutSidebar } from './components/Layout/Layout';
 
 
 export default class App extends Component {
@@ -13,10 +14,14 @@ export default class App extends Component {
   render () {
     return (
       <Switch>
-        <Route exact path='/' component={Home} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/availability' component={Availability} />
-        <Route path='/register' component={RegistrationForm} />
+        <LayoutNavMenu>
+          <Route exact path='/' component={Home} />
+          <Route path='/register' component={RegistrationForm} />
+        </LayoutNavMenu>
+        <LayoutSidebar>
+          <Route path='/profile' component={Profile} />
+          <Route path='/availability' component={Availability} />
+         </LayoutSidebar>
       </Switch>
     );
   }
