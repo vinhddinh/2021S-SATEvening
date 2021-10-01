@@ -3,31 +3,30 @@ import './StyleForm.css';
 import { Link } from 'react-router-dom';
 
 export class Home extends Component {
-  static displayName = Home.name;
+
+    static displayName = Home.name;
   
-  render () {
-      return (
+    render () {
+    return (
         <div className = "bg">
             <div className ="child">
                 <h1 className = "center"> Log In </h1>
                 <form>
                     <div>
                         <label>
-                            <div>
                                 Email Address:
-                            </div>
-                            <div>
-                                <input type="text" name="Email Address" style={{ width: "350px" }}/>
-                            </div>
                         </label>
+                        <div>
+                            <input type="text" name="Email Address" style={{ width: "350px" }} />
+                        </div>
                     </div>
                     <div>
                         <label>
-                            <div>
                                 Password:
-                            </div>
-                            <input type="password" name="Password" style={{ width: "350px" }}/>
                         </label>
+                        <div>
+                            <input type="password" name="Password" style={{ width: "350px" }} />
+                        </div>
                     </div>
                     <div className="center">
                         <input className="button" type="submit" value="Log In" style={{ width: "150px" }} />
