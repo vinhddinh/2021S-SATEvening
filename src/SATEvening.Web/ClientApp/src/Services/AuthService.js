@@ -1,11 +1,11 @@
 ﻿export default class AuthService {
-    signIn(email, password) {
+    signIn(username, password) {
         fetch("https://localhost:5001/api/account/login", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ username, password })
         })
         .then(response => response.json())
         .then(data => {

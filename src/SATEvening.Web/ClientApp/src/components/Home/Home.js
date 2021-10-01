@@ -9,8 +9,8 @@ export class Home extends Component {
         super(props);
 
         this.state = {
-            email: " ",
-            password: " "
+            username: "",
+            password: ""
         };
 
         this.authService = new AuthService();
@@ -24,8 +24,8 @@ export class Home extends Component {
     }
 
     handleSubmit(event) {
-        const { email, password } = this.state;
-        this.authService.signIn(email, password);
+        const { username, password } = this.state;
+        this.authService.signIn(username, password);
         event.preventDefault();
     }
   
@@ -37,10 +37,10 @@ export class Home extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>
-                                Email Address:
+                                Username:
                         </label>
                         <div>
-                            <input type="text" name="email" value={this.state.value} onChange={this.handleChange} style = {{ width: "350px" }} />
+                            <input type="text" name="username" value={this.state.value} onChange={this.handleChange} style = {{ width: "350px" }} />
                         </div>
                     </div>
                     <div>
