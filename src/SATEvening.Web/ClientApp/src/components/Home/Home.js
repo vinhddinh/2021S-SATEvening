@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './StyleForm.css';
 import { Link } from 'react-router-dom';
+import AuthService from '../../Services/AuthService';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -12,6 +13,8 @@ export class Home extends Component {
             password: " "
         };
 
+        this.authService = new AuthService();
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -21,6 +24,8 @@ export class Home extends Component {
     }
 
     handleSubmit(event) {
+        const { email, password } = this.state;
+        this.authService.signIn(email, password);
         event.preventDefault();
     }
   
