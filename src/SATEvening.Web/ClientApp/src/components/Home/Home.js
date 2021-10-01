@@ -26,7 +26,7 @@ export class Home extends Component {
                             <div>
                                 Password:
                             </div>
-                            <input type="text" name="Password" style={{ width: "350px" }}/>
+                            <input type="password" name="Password" style={{ width: "350px" }}/>
                         </label>
                     </div>
                     <div className="center">

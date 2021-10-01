@@ -70,7 +70,7 @@ export class RegistrationForm extends Component {
                                 <div>
                                     Password*
                                 </div>
-                                <input type="text" name="Password" style={{ width: "350px" }} />
+                                <input type="password" name="Password" style={{ width: "350px" }} />
                                 <div className="additionalInfo">
                                     At least 8 characters containing numbers and symbols
                                 </div>
