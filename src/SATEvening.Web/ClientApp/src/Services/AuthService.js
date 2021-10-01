@@ -9,10 +9,15 @@
         })
         .then(response => response.json())
         .then(data => {
+            this.setToken(data.token);
             console.log("Success", data);
         })
         .catch((error) => {
             console.error("Error", error);
         });
+    }
+
+    setToken(token) {
+        window.localStorage.setItem("token", token);
     }
 }
