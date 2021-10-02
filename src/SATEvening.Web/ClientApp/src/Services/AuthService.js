@@ -1,4 +1,8 @@
 ﻿export default class AuthService {
+    static isSignedIn() {
+        return !!window.localStorage.getItem("token");
+    }
+
     signIn(username, password) {
         fetch("https://localhost:5001/api/account/login", {
             method: "POST",
