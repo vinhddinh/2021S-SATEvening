@@ -32,7 +32,8 @@ export class RegistrationForm extends Component {
         event.preventDefault();
         if (this.state.username === "" || this.state.password === "" || this.state.firstname || this.state.lastname === "" || this.state.email === "") {
             this.setState({
-                message: "Fields are required"
+                message: "Fields are required",
+                isError: true
             });
         }
 
