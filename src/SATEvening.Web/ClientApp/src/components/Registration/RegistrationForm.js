@@ -30,12 +30,6 @@ export class RegistrationForm extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        if (this.state.username === "" || this.state.password === "" || this.state.firstname || this.state.lastname === "" || this.state.email === "") {
-            this.setState({
-                message: "Fields are required",
-                isError: true
-            });
-        }
 
         try {
             const { message, isError, ...registrationDetails } = this.state;
