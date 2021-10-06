@@ -10,6 +10,11 @@ export default class AuthService {
         this.setToken(userDetails.token);
     }
 
+    async register(registrationDetails) {
+        const registrationUserDetails = await WebService.post("https://localhost:5001/api/account/register", registrationDetails);
+        this.setToken(registrationUserDetails.token);
+    }
+
     setToken(token) {
         window.localStorage.setItem("token", token);
     }
