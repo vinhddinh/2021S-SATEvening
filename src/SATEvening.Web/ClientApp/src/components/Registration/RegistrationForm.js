@@ -33,7 +33,6 @@ export class RegistrationForm extends Component {
 
         try {
             const { message, isError, ...registrationDetails } = this.state;
-            console.log(registrationDetails);
             await this.authService.register(registrationDetails);
             this.setState({
                 message: "Registration Successful"
