@@ -1,9 +1,10 @@
 ﻿import React, { Component } from "react";
+import { Button } from "react";
 import TableDragSelect from "react-table-drag-select";
 import "./Availability.css";
 
 export class Availability extends Component {
-  static displayName = Availability.name;
+    static displayName = Availability.name;
 
   state = {
     cells: [
@@ -35,11 +36,26 @@ export class Availability extends Component {
       [false, false, false, false, false, false],
       [false, false, false, false, false, false]
     ]
-  };
+    };
 
-  render() {
-    return (
-      <TableDragSelect
+    render() {
+        function editGeneral() {
+            if (document.getElementById("editbutton").innerHTML == "Edit") {
+                document.getElementById("editbutton").innerHTML = "Save";                
+            }
+            else {
+                document.getElementById("editbutton").innerHTML = "Edit";
+            }    
+        }
+      return (
+          <div>
+            <body>
+              <header>
+               <h1> General Availability </h1>
+              </header>
+            </body>
+        <button id="editbutton" onClick={editGeneral}>Edit</button>
+        <TableDragSelect
         value={this.state.cells}
         onChange={cells => this.setState({ cells })}
       >
@@ -259,7 +275,8 @@ export class Availability extends Component {
           <td />
           <td />
         </tr>
-      </TableDragSelect>
+              </TableDragSelect>
+      </div>
     );
   }
 }
