@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import AuthService from '../../Services/AuthService';
+import { Link } from 'react-router-dom';
 import './RegistrationForm.css';
 
 export class RegistrationForm extends Component {
@@ -145,7 +146,7 @@ export class RegistrationForm extends Component {
                             <input className="button" type="submit" value="Register" style={{ width: "150px" }} />
                         </div>
                         <div className="center">
-                            <input className="subButton" type="submit" value="Go Back To Log In" style={{ width: "150px" }} />
+                            <Link to="/"><button className="subButton">Go Back To Log In</button></Link>
                         </div>
                     </form>
                     <p className={this.state.isError ? "text-danger" : "text-primary"}>{this.state.message}</p>
