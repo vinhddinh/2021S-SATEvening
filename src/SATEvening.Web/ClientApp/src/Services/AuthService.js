@@ -1,24 +1,13 @@
-﻿export default class AuthService {
+﻿import WebService from './WebService';
+
+export default class AuthService {
     static isSignedIn() {
         return !!window.localStorage.getItem("token");
     }
 
-    signIn(username, password) {
-        fetch("https://localhost:5001/api/account/login", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password })
-        })
-        .then(response => response.json())
-        .then(data => {
-            this.setToken(data.token);
-            console.log("Success", data);
-        })
-        .catch((error) => {
-            console.error("Error", error);
-        });
+    async signIn(username, password) {
+        const userDetails = await WebService.post("https://localhost:5001/api/account/login", { username, password });
+        this.setToken(userDetails.token);
     }
 
     setToken(token) {
