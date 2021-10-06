@@ -10,7 +10,8 @@ export class Home extends Component {
 
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            message: ""
         };
 
         this.authService = new AuthService();
@@ -23,10 +24,24 @@ export class Home extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleSubmit(event) {
-        const { username, password } = this.state;
-        this.authService.signIn(username, password);
+    async handleSubmit(event) {
         event.preventDefault();
+
+        if (this.state.username === "" || this.state.password === "") {
+            this.setState({
+                message: "Fields are required"
+            });
+        }
+
+        try {
+            const { username, password } = this.state;
+            await this.authService.signIn(username, password);
+            this.props.history.push("/profile");
+        } catch(error) {
+            this.setState({
+                message: "An error occurred. Please wait or try again."
+            });
+        }
     }
   
     render () {
@@ -57,6 +72,7 @@ export class Home extends Component {
                     <div className="center">
                         <input className="subButton" type="submit" value="Forgot My Password" style={{ width: "150px" }} />
                     </div>
+                    <p className="text-danger text-center">{this.state.message}</p>
                 </form>
                 </div>
             <div className="childs">
