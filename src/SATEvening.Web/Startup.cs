@@ -40,7 +40,10 @@ namespace SATEvening
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddDbContext<IdentityDataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<IdentityDataContext>(options => 
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDataContext>()
