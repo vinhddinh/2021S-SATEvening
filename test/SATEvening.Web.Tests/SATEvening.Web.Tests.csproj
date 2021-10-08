@@ -26,8 +26,10 @@
   <ItemGroup>
     <None Remove="Moq" />
     <None Remove="Controllers\" />
+    <None Remove="Fakes\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Fakes\" />
   </ItemGroup>
 </Project>

@@ -1,91 +1,157 @@
 ﻿import React, { Component } from 'react';
+import AuthService from '../../Services/AuthService';
+import { Link } from 'react-router-dom';
 import './RegistrationForm.css';
 
 export class RegistrationForm extends Component {
     static displayName = RegistrationForm.name;
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            firstname:"",
+            lastname:"",
+            username: "",
+            password: "",
+            email:"",
+            message: "",
+            isError: false
+        };
+
+        this.authService = new AuthService();
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+
+        try {
+            const { message, isError, ...registrationDetails } = this.state;
+            await this.authService.register(registrationDetails);
+            this.setState({
+                message: "Registration Successful"
+            });
+        } catch(error) {
+            this.setState({
+                message: "An error occurred. Please wait or try again.",
+                isError: true
+            });
+        }
+    }
+
     render() {
         return (
-            <div clasName="bg">
+            <div className="bg">
                 <div className="form">
                     <h1 className="center"> Registration Form </h1>
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <div>
                             <label className="labelText">
                                 <div>
                                     Select Role:
                                 </div>
+                            </label>
+                            <div>
                                 <select name="selectList" id="selectList">
                                     <option value="Tutor">Tutor</option>
                                     <option value="Coord">Subject Coordinator</option>
                                     <option value="Admin">Subject Administartor</option>
                                 </select>
-                            </label>
+                            </div>
                         </div>
                         <div>
                             <label className="labelText">
                                 <div>
                                     First Name*
                                 </div>
-                                <input type="text" name="First Name" style={{ width: "350px" }} />
                             </label>
+                            <div>
+                                <input type="text" name="firstname" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div>
                             <label className="labelText">
                                 <div>
                                     Last Name*
                                 </div>
-                                <input type="text" name="Last Name" style={{ width: "350px" }} />
                             </label>
+                            <div>
+                                <input type="text" name="lastname" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="labelText">
+                                <div>
+                                    Username*
+                                </div>
+                            </label>
+                            <div>
+                                <input type="text" name="username" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div>
                             <label className="labelText">
                                 <div>
                                     Staff ID #
                                 </div>
-                                <input type="text" name="Staff ID" style={{ width: "350px" }} />
                             </label>
+                            <div>
+                                <input type="text" name="Staff ID" style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div>
                             <label className="labelText">
                                 <div>
                                     Phone Number
                                 </div>
-                                <input type="text" name="Phone" style={{ width: "350px" }} />
                             </label>
+                            <div>
+                                <input type="text" name="Phone Number" style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div>
                             <label className="labelText">
                                 <div>
                                     UTS Email Address*
                                 </div>
-                                <input type="text" name="Email" style={{ width: "350px" }} />
                                 <div className="additionalInfo">
                                     Using First name, Last name
                                 </div>
                             </label>
+                            <div>
+                                <input type="text" name="email" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div>
                             <label className="labelText">
                                 <div>
                                     Password*
                                 </div>
-                                <input type="password" name="Password" style={{ width: "350px" }} />
                                 <div className="additionalInfo">
                                     At least 8 characters containing numbers and symbols
                                 </div>
                             </label>
+                            <div>
+                                <input type="password" name="password" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div className="center">
                             <input className="button" type="submit" value="Register" style={{ width: "150px" }} />
                         </div>
                         <div className="center">
-                            <input className="subButton" type="submit" value="Go Back To Log In" style={{ width: "150px" }} />
+                            <Link to="/"><button className="subButton">Go Back To Log In</button></Link>
                         </div>
                     </form>
+                    <p className={this.state.isError ? "text-danger" : "text-primary"}>{this.state.message}</p>
                 </div>
             </div>
-
         );
     }
 }

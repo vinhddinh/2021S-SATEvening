@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import { Home } from './components/Home/Home';
 import { Profile } from './components/Profile/Profile';
 import { Availability } from './components/Availability/Availability';
 import { RegistrationForm } from './components/Registration/RegistrationForm';
 import { LayoutNavMenu, LayoutSidebar } from './components/Layout/Layout';
 import './custom.css'
+import AuthService from './Services/AuthService';
 
 
 export default class App extends Component {
@@ -16,11 +17,19 @@ export default class App extends Component {
       <Switch>
         <RouteWrapper exact path='/' component={Home} layout={LayoutNavMenu}/>
         <RouteWrapper path='/register' component={RegistrationForm} layout={LayoutNavMenu}/>
-        <RouteWrapper path='/profile' component={Profile} layout={LayoutSidebar}/>
-        <RouteWrapper path='/availability' component={Availability} layout={LayoutSidebar}/>
+        <PrivateRoute path='/profile' component={Profile} layout={LayoutSidebar}/>
+        <PrivateRoute path='/availability' component={Availability} layout={LayoutSidebar}/>
       </Switch>
     );
   }
+}
+
+function PrivateRoute(props) {
+  return AuthService.isSignedIn() ?
+      RouteWrapper(props) :
+      <Redirect to={{
+        pathname: '/'}}
+      />
 }
 
 function RouteWrapper({

@@ -1,18 +1,20 @@
 using System;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using SATEvening.BLL.Services;
 using SATEvening.BLL.Services.Interfaces;
 using SATEvening.DAL.Contexts;
 using SATEvening.DAL.Models;
+using SATEvening.Web.Settings;
 
 namespace SATEvening
 {
@@ -28,6 +30,7 @@ namespace SATEvening
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<JWTOptions>(Configuration.GetSection(JWTOptions.JWT));
 
             services.AddControllersWithViews();
 
@@ -47,12 +50,21 @@ namespace SATEvening
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenService, TokenService>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = new TimeSpan(0, 2, 0);
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["JWT:Issuer"],
+                        ValidAudience = Configuration["JWT:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
+                    };
                 });
         }
 

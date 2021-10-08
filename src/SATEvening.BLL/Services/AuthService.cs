@@ -1,11 +1,17 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SATEvening.BLL.Exceptions;
 using SATEvening.BLL.Models;
 using SATEvening.BLL.Services.Interfaces;
 using SATEvening.DAL.Models;
+using SATEvening.Web.Settings;
 
 namespace SATEvening.BLL.Services
 {
@@ -13,11 +19,19 @@ namespace SATEvening.BLL.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ITokenService _tokenService;
 
         public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
@@ -40,7 +54,8 @@ namespace SATEvening.BLL.Services
             {
                 UserName = existingUser.UserName,
                 FullName = string.Join(" ", existingUser.FirstName, existingUser.LastName),
-                Email = existingUser.Email
+                Email = existingUser.Email,
+                Token = _tokenService.GenerateToken(existingUser)
             };
         }
 
@@ -64,7 +79,8 @@ namespace SATEvening.BLL.Services
             {
                 UserName = user.UserName,
                 FullName = string.Join(" ", user.FirstName, user.LastName),
-                Email = user.Email
+                Email = user.Email,
+                Token = _tokenService.GenerateToken(user)
             };
         }
 
