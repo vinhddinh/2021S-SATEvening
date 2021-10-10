@@ -1,6 +1,8 @@
 ﻿import React, { Component } from "react";
-import { Button } from "react";
+//import { Button } from "react";
 import TableDragSelect from "react-table-drag-select";
+//import { Redirect, Router, Switch, Route } from "react-router";
+import { Link } from 'react-router-dom';
 import "./Availability.css";
 
 export class Availability extends Component {
@@ -39,13 +41,16 @@ export class Availability extends Component {
     };
 
     render() {
-        function editGeneral() {
+        function editGeneral() { //Become able to edit the general Availabilities
             if (document.getElementById("editbutton").innerHTML == "Edit") {
-                document.getElementById("editbutton").innerHTML = "Save";                
+                document.getElementById("editbutton").innerHTML = "Save";
             }
-            else {
+            else { //Saving the Availabilities
                 document.getElementById("editbutton").innerHTML = "Edit";
             }    
+        }
+        function goSpecific(){
+            
         }
       return (
           <div>
@@ -54,7 +59,8 @@ export class Availability extends Component {
                <h1> General Availability </h1>
               </header>
             </body>
-        <button id="editbutton" onClick={editGeneral}>Edit</button>
+          <button id="editbutton" onClick={editGeneral}>Edit</button>
+          <Link to="/specific-availability"> <button id="SpecificAvailability">Edit Specific Availability</button></Link>
         <TableDragSelect
         value={this.state.cells}
         onChange={cells => this.setState({ cells })}
