@@ -49,9 +49,6 @@ export class Availability extends Component {
                 document.getElementById("editbutton").innerHTML = "Edit";
             }    
         }
-        function goSpecific(){
-            
-        }
       return (
           <div>
             <body>
