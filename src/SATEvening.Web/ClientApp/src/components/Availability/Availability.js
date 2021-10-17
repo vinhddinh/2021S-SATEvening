@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-//import { Button } from "react";
+import { Button } from "react";
 import TableDragSelect from "react-table-drag-select";
 //import { Redirect, Router, Switch, Route } from "react-router";
 import { Link } from 'react-router-dom';
@@ -8,47 +8,57 @@ import "./Availability.css";
 export class Availability extends Component {
     static displayName = Availability.name;
 
-  state = {
-    cells: [
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false]
-    ]
+    initState = {
+        savedCells: [],
+        cells: [
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false],
+            [false, false, false, false, false, false]
+        ]
     };
 
-    render() {
-        function editGeneral() { //Become able to edit the general Availabilities
-            if (document.getElementById("editbutton").innerHTML == "Edit") {
-                document.getElementById("editbutton").innerHTML = "Save";
-            }
-            else { //Saving the Availabilities
-                document.getElementById("editbutton").innerHTML = "Edit";
-            }    
+    constructor(props) {
+        super(props);
+        this.state = {
+            savedCells: this.initState.savedCells,
+            cells: this.initState.cells
+        };
+        this.editGeneral = this.editGeneral.bind(this);
+    }
+    editGeneral() {
+        if (document.getElementById("editbutton").innerHTML === "Save") {
+            this.setState({ savedCells: this.state.cells });
+            document.getElementById("editbutton").innerHTML = "Edit";
+        } else {
+            document.getElementById("editbutton").innerHTML = "Save";
         }
+    }
+
+    render() {
       return (
           <div>
             <body>
@@ -56,12 +66,14 @@ export class Availability extends Component {
                <h1> General Availability </h1>
               </header>
             </body>
-          <button id="editbutton" onClick={editGeneral}>Edit</button>
-          <Link to="/specific-availability"> <button id="SpecificAvailability">Edit Specific Availability</button></Link>
-        <TableDragSelect
-        value={this.state.cells}
-        onChange={cells => this.setState({ cells })}
-      >
+              <button id="editbutton" onClick={() => this.editGeneral()}>Edit</button>
+              <br></br>
+          <Link to="/specific-availability"> <button id="SpecificAvailability">Edit Specific Availabilities</button></Link>
+          <div>
+              <TableDragSelect
+             value={this.state.cells}
+             onChange={cells => this.setState({ cells })}
+         >
         <tr>
           <td disabled />
           <td disabled>Monday</td>
@@ -278,7 +290,8 @@ export class Availability extends Component {
           <td />
           <td />
         </tr>
-              </TableDragSelect>
+      </TableDragSelect>
+      </div>
       </div>
     );
   }

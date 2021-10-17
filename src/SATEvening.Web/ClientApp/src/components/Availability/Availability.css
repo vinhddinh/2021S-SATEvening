@@ -38,6 +38,7 @@
 
 		/* Cells that cannot be interacted with */
 		.table-drag-select td.cell-disabled {
+
 		}
 
 		/* Cells that have been selected */
@@ -54,3 +55,60 @@
 			background-color: #4d91ff;
 			border: 2px solid #4d91ff;
 		}
+
+
+#editbutton {
+	background-color: #0f4beB;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: #FFF;
+	font-weight: bold;
+	position: relative;
+	left: 80%;
+	bottom: 90%;
+	width: 100px;
+	white-space: normal;
+}
+
+#editbutton:hover {
+	background-color: #4d91ff;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: #FFF;
+	font-weight: bold;
+	position: relative;
+	left: 80%;
+	bottom: 90%;
+	width: 100px;
+	white-space: normal;
+}
+
+#SpecificAvailability {
+	background-color: #ebebeb;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 20px;
+	color: black;
+	padding: 5px 10px;
+	position: relative;
+	left: 70%;
+	bottom: 90%;
+	width: 200px;
+	white-space: normal;
+}
+
+#SpecificAvailability:hover {
+	background-color: #b2b2b2;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 20px;
+	color: black;
+	padding: 5px 10px;
+	position: relative;
+	left: 70%;
+	bottom: 90%;
+	width: 200px;
+	white-space: normal;
+}
