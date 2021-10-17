@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SATEvening.BLL.Services;
 using SATEvening.BLL.Services.Interfaces;
+using SATEvening.BLL.Settings;
 using SATEvening.DAL.Contexts;
 using SATEvening.DAL.Models;
 using SATEvening.Web.Settings;
@@ -31,6 +32,7 @@ namespace SATEvening
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JWTOptions>(Configuration.GetSection(JWTOptions.JWT));
+            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection(AuthMessageSenderOptions.SendGridKey));
 
             services.AddControllersWithViews();
 
