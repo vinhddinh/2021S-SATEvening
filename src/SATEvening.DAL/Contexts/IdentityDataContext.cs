@@ -17,5 +17,8 @@ namespace SATEvening.DAL.Contexts
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<Availability> Availabilities { get; set; }
+        public DbSet<SpecificAvailability> SpecificAvailabilities { get; set; }
     }
 }
