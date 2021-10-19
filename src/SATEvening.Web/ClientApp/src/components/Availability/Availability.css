@@ -65,25 +65,25 @@
 	color: #FFF;
 	font-weight: bold;
 	position: relative;
-	left: 80%;
-	bottom: 90%;
+	left: 100%;
 	width: 100px;
+	height: 75px;
 	white-space: normal;
 }
 
-#editbutton:hover {
-	background-color: #4d91ff;
-	border: 3px solid black;
-	text-align: center;
-	font-size: 30px;
-	color: #FFF;
-	font-weight: bold;
-	position: relative;
-	left: 80%;
-	bottom: 90%;
-	width: 100px;
-	white-space: normal;
-}
+	#editbutton:hover {
+		background-color: #4d91ff;
+		border: 3px solid black;
+		text-align: center;
+		font-size: 30px;
+		color: #FFF;
+		font-weight: bold;
+		position: relative;
+		left: 100%;
+		width: 100px;
+		height: 75px;
+		white-space: normal;
+	}
 
 #SpecificAvailability {
 	background-color: #ebebeb;
@@ -93,9 +93,9 @@
 	color: black;
 	padding: 5px 10px;
 	position: relative;
-	left: 70%;
-	bottom: 90%;
+	left: 60%;
 	width: 200px;
+	height: 75px;
 	white-space: normal;
 }
 
@@ -103,16 +103,39 @@
 	background-color: #b2b2b2;
 	border: 3px solid black;
 	text-align: center;
+	text-decoration-color: #b2b2b2; 
 	font-size: 20px;
 	color: black;
 	padding: 5px 10px;
 	position: relative;
-	left: 70%;
-	bottom: 90%;
+	left: 60%;
 	width: 200px;
+	height: 75px;
 	white-space: normal;
 }
 
-#Table1 {
+.myDiv {
 	pointer-events: none;
+	margin-left: 15%;
+	margin-right: 15%;
+	width: 70%;
+}
+
+.myDisabledDiv {
+	margin-left: 15%;
+	margin-right: 15%;
+	width: 70%;
+}
+
+.title{
+	font-size: 50px;
+	width: 500px
+}
+
+.grid{
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+
+	width: 80%;
+	max-width: 600px;
 }

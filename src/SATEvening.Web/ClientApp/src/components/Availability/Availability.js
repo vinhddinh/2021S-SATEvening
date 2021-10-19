@@ -48,35 +48,36 @@ export class Availability extends Component {
             cells: this.initState.cells
         };
         this.editGeneral = this.editGeneral.bind(this);
-        this.saveGeneral = this.saveGeneral.bind(this);
     }
     editGeneral() {
         if (document.getElementById("editbutton").innerHTML === "Save") {
             this.setState({ savedCells: this.state.cells });
             document.getElementById("editbutton").innerHTML = "Edit";
-            //document.getElementById("Table1").disabled = true;
+            document.getElementById("Table1").classList.add('myDiv');
+            document.getElementById("Table1").classList.remove('myDisabledDiv');
         } else {
             document.getElementById("editbutton").innerHTML = "Save";
-            //document.getElementById("Table1").disabled = false;
+            document.getElementById("Table1").classList.remove('myDiv');
+            document.getElementById("Table1").classList.add('myDisabledDiv');
         }
     }
 
-    async saveGeneral(event) {
-        
-    }
+    
 
     render() {
       return (
           <div>
+              <div class="grid">
             <body>
               <header>
-               <h1 classname= "title"> General Availability </h1>
+               <h1 class= "title"> General Availability </h1>
               </header>
             </body>
               <button id="editbutton" onClick={() => this.editGeneral()}>Edit</button>
               <br></br>
-          <Link to="/specific-availability"> <button id="SpecificAvailability">Edit Specific Availabilities</button></Link>
-          <div id="Table1">
+                  <Link to="/specific-availability" id="SpecificAvailability"> Edit Specific Availabilities</Link>
+                  </div>
+          <div id="Table1" class="myDiv">
               <TableDragSelect
              value={this.state.cells}
              onChange={cells => this.setState({ cells })}
