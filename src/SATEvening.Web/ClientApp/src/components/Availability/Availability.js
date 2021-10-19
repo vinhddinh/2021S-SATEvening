@@ -48,14 +48,21 @@ export class Availability extends Component {
             cells: this.initState.cells
         };
         this.editGeneral = this.editGeneral.bind(this);
+        this.saveGeneral = this.saveGeneral.bind(this);
     }
     editGeneral() {
         if (document.getElementById("editbutton").innerHTML === "Save") {
             this.setState({ savedCells: this.state.cells });
             document.getElementById("editbutton").innerHTML = "Edit";
+            //document.getElementById("Table1").disabled = true;
         } else {
             document.getElementById("editbutton").innerHTML = "Save";
+            //document.getElementById("Table1").disabled = false;
         }
+    }
+
+    async saveGeneral(event) {
+        
     }
 
     render() {
@@ -69,7 +76,7 @@ export class Availability extends Component {
               <button id="editbutton" onClick={() => this.editGeneral()}>Edit</button>
               <br></br>
           <Link to="/specific-availability"> <button id="SpecificAvailability">Edit Specific Availabilities</button></Link>
-          <div>
+          <div id="Table1">
               <TableDragSelect
              value={this.state.cells}
              onChange={cells => this.setState({ cells })}
