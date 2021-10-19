@@ -63,7 +63,7 @@ export class Availability extends Component {
           <div>
             <body>
               <header>
-               <h1 classname "title"> General Availability </h1>
+               <h1 classname= "title"> General Availability </h1>
               </header>
             </body>
               <button id="editbutton" onClick={() => this.editGeneral()}>Edit</button>
