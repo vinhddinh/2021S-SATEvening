@@ -20,6 +20,7 @@ namespace SATEvening.BLL.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
 
         public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
@@ -32,6 +33,15 @@ namespace SATEvening.BLL.Services
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+        }
+
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,
+            IEmailService emailService)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
