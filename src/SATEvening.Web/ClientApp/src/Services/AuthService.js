@@ -5,8 +5,8 @@ export default class AuthService {
         return !!window.localStorage.getItem("token");
     }
 
-    async signIn(username, password) {
-        const userDetails = await WebService.post("https://localhost:5001/api/account/login", { username, password });
+    async signIn(email, password) {
+        const userDetails = await WebService.post("https://localhost:5001/api/account/login", { email, password });
         this.setToken(userDetails.token);
     }
 

@@ -46,23 +46,22 @@ namespace SATEvening.BLL.Services
 
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
         {
-            var existingUser = await FindUserByName(login.UserName);
+            var existingUser = await FindUserByEmail(login.Email);
 
             if (existingUser == null)
             {
-                throw new NotFoundException(string.Format("Login Failed: Username {0} could not be found", login.UserName));
+                throw new NotFoundException(string.Format("Login Failed: Email {0} could not be found", login.Email));
             }
 
             var result = await _signInManager.PasswordSignInAsync(existingUser, login.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
-                throw new BadRequestException("Login Failed: The username or password was invalid");
+                throw new BadRequestException("Login Failed: The email or password was invalid");
             }
 
             return new UserResponseModel
             {
-                UserName = existingUser.UserName,
                 FullName = string.Join(" ", existingUser.FirstName, existingUser.LastName),
                 Email = existingUser.Email,
                 Token = _tokenService.GenerateToken(existingUser)
@@ -71,11 +70,11 @@ namespace SATEvening.BLL.Services
 
         public async Task<UserResponseModel> RegisterAsync(UserRequestModel user)
         {
-            var isExistingUser = await FindUserByName(user.UserName) != null;
+            var isExistingUser = await FindUserByEmail(user.Email) != null;
 
             if (isExistingUser)
             {
-                throw new AlreadyExistsException(string.Format("The username {0} already exists.", user.UserName));
+                throw new AlreadyExistsException(string.Format("The user with email {0} already exists.", user.UserName));
             }
 
             var result = await _userManager.CreateAsync(user, user.Password);
@@ -89,16 +88,15 @@ namespace SATEvening.BLL.Services
 
             return new UserResponseModel
             {
-                UserName = user.UserName,
                 FullName = string.Join(" ", user.FirstName, user.LastName),
                 Email = user.Email,
                 Token = _tokenService.GenerateToken(user)
             };
         }
 
-        private async Task<AppUser> FindUserByName(string username)
+        private async Task<AppUser> FindUserByEmail(string email)
         {
-            return await _userManager.FindByNameAsync(username);
+            return await _userManager.FindByEmailAsync(email);
         }
     }
 }
