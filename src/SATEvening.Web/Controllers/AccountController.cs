@@ -34,11 +34,11 @@ namespace SATEvening.Web.Controllers
             }
             catch (AlreadyExistsException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
             catch (BadRequestException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
         }
 
@@ -57,11 +57,11 @@ namespace SATEvening.Web.Controllers
             }
             catch (NotFoundException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
             catch (BadRequestException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
         }
     }
