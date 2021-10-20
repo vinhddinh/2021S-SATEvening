@@ -33,7 +33,7 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task ValidRegistrationDetailsShouldReturnOkResponse()
         {
-            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
+            var user = new UserRequestModel { Email = "test@uts.edu.au", FirstName = "test", LastName = "me", Password = "1@testL" };
             _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
 
             var result = await _controller.Register(user);
@@ -45,7 +45,7 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task RegisterFailureShouldReturnBadResponse()
         {
-            var user = new UserRequestModel { Email = "", UserName = "test123", FirstName = "test", LastName = "me", Password = "1@testL" };
+            var user = new UserRequestModel { Email = "", FirstName = "test", LastName = "me", Password = "1@testL" };
             _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(
                 IdentityResult.Failed(new IdentityError { Description = "registration failure with asp.net identity" }));
            
@@ -58,7 +58,7 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task InvalidRegistrationDetailsShouldReturnBadResponse()
         {
-            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
+            var user = new UserRequestModel { Email = "test@uts.edu.au", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
             _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
 
             var result = await _controller.Register(user);
@@ -68,11 +68,11 @@ namespace SATEvening.Web.Tests
         }
 
         [Fact]
-        public async Task RegisteringWithExistingUserNameShouldReturnBadResponse()
+        public async Task RegisteringWithExistingEmailShouldReturnBadResponse()
         {
-            var user = new UserRequestModel { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
-            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(value: null);
-            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "password does not meet requirements" }));
+            var user = new UserRequestModel { Email = "test@uts.edu.au", FirstName = "test", LastName = "me", Password = "thispasswordistoosimple" };
+            _mockUserManager.Setup(m => m.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(value: null);
+            _mockUserManager.Setup(m => m.CreateAsync(It.IsAny<UserRequestModel>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "email exists" }));
 
             var result = await _controller.Register(user);
 
@@ -87,10 +87,10 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task CorrectLoginDetailsShouldReturnOkResponse()
         {
-            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL" };
-            var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123" };
+            var login = new LoginRequestModel { Email = "test@uts.edu.au", Password = "1@testL" };
+            var user = new AppUser { Email = "test@uts.edu.au" };
             _mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
-            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
 
             var result = await _controller.Login(login);
 
@@ -101,10 +101,10 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task IncorrectPasswordShouldReturnBadResponse()
         {
-            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL12435456" };
+            var login = new LoginRequestModel { Email = "test@uts.edu.au", Password = "1@testL12435456" };
             var user = new AppUser { Email = "test@uts.edu.au", UserName = "test123", FirstName = "test", LastName = "me" };
             _mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<AppUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
-            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
 
             var result = await _controller.Login(login);
 
@@ -115,8 +115,8 @@ namespace SATEvening.Web.Tests
         [Fact]
         public async Task InvalidEmailOnSignInShouldReturnBadResponse()
         {
-            var login = new LoginRequestModel { UserName = "test123", Password = "1@testL12435456" };
-            _mockUserManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(value: null);
+            var login = new LoginRequestModel { Email = "wrongemail@uts.edu.au", Password = "1@testL12435456" };
+            _mockUserManager.Setup(m => m.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(value: null);
 
             var result = await _controller.Login(login);
 
