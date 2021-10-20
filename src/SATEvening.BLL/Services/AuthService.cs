@@ -85,6 +85,8 @@ namespace SATEvening.BLL.Services
                 throw new BadRequestException(result.Errors.FirstOrDefault().Description);
             }
 
+            await _emailService.SendEmailAsync(user.Email);
+
             return new UserResponseModel
             {
                 UserName = user.UserName,
