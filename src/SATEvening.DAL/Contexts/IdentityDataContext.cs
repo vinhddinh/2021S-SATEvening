@@ -13,6 +13,10 @@ namespace SATEvening.DAL.Contexts
         {
         }
 
+        public IdentityDataContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

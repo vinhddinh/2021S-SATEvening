@@ -84,7 +84,7 @@ namespace SATEvening.BLL.Services
             };
         }
 
-        private async Task<AppUser> FindUserByName(string username)
+        public async Task<AppUser> FindUserByName(string username)
         {
             return await _userManager.FindByNameAsync(username);
         }

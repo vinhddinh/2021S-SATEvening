@@ -5,43 +5,54 @@ import "./Availability.css";
 export class Availability extends Component {
   static displayName = Availability.name;
 
-  state = {
-    cells: [
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false],
-      [false, false, false, false, false, false]
-    ]
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cells: [
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false]
+      ]
+    }
+
+    this.handleChange = this.handleChange.bind(this);
   };
+
+  handleChange(cells) {
+
+    this.setState({ cells });
+	}
 
   render() {
     return (
       <TableDragSelect
         value={this.state.cells}
-        onChange={cells => this.setState({ cells })}
+        onChange={e => this.handleChange(e)}
       >
         <tr>
           <td disabled />
