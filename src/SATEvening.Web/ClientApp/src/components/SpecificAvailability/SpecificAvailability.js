@@ -2,6 +2,7 @@
 //import Table from 'react-reactstrap/Table';
 import "./SpecificAvailability.css";
 import { Link } from 'react-router-dom';
+//import {Table} from 'table';
 
 export class SpecificAvailability extends Component {
     static displayName = SpecificAvailability.name;
