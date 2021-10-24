@@ -35,6 +35,11 @@ export class EditSpecificAvailability extends Component {
                            <div>
                            End Date
                            </div>
+                        </label>
+                           <div>
+                           <input type = "text" name = "End Date" >
+                            </div>
+
 
                                 
                 </body>
