@@ -1,1 +1,100 @@
 ﻿
+.title {
+    font-size: 50px;
+    width: 500px
+}
+
+#Availability {
+    background-color: #38dd00;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    left: 100%;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+#Availability:hover {
+    background-color: #2aa400;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    left: 100%;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+#Availability {
+    background-color: #38dd00;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    text-decoration-color: #38dd00;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    left: 100%;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+#Availability:hover {
+    background-color: #2aa400;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    text-decoration-color: #2aa400;
+    font-weight: bold;
+    position: relative;
+    left: 100%;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+#EditSpecificAvailability {
+    background-color: #0f4beB;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    text-decoration-color: #38dd00;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    left: 100%;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+#EditSpecificAvailability:hover {
+    background-color: #4d91ff;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    text-decoration-color: #2aa400;
+    font-weight: bold;
+    position: relative;
+    left: 100%;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    width: 80%;
+    max-width: 600px;
+}

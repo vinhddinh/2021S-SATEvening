@@ -1,6 +1,7 @@
 ﻿import React, { Component } from "react";
 //import Table from 'react-reactstrap/Table';
 import "./SpecificAvailability.css";
+import { Link } from 'react-router-dom';
 
 export class SpecificAvailability extends Component {
     static displayName = SpecificAvailability.name;
@@ -12,21 +13,16 @@ export class SpecificAvailability extends Component {
 
         }
 
-        function editDate() {
-
-        }
-
-        function deleteDate() {
-
-        }
-
         return (
             <div>
                 <body>
-                    <header>
-                        <h1> Specific Availability </h1>
-                    </header>
-                    <button id="addDate" onClick={addSpecific}>Add Date</button>
+                    <div class="grid">
+                        <header>
+                            <h1 class="title"> Specific Availability </h1>
+                        </header>
+                        <Link to="/availability" id="Availability"> Save</Link>
+                    </div>
+                    <Link to="/edit-specific-availability" id="EditSpecificAvailability"> Add Date</Link>
                 </body>
             </div>
          );

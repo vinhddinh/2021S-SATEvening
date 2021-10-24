@@ -16,9 +16,9 @@ export class EditSpecificAvailability extends Component {
             <div>
                 <body>
                     <header>
-                        <h1> Edit Specific Availability </h1>
+                        <h1 class="title"> Edit Specific Availability </h1>
                     </header>
-                    <button id="addDate" onClick={addSpecific}>Add Date</button>
+                    
                 </body>
             </div>
          );
