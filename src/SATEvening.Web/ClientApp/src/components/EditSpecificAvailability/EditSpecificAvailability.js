@@ -18,7 +18,25 @@ export class EditSpecificAvailability extends Component {
                     <header>
                         <h1 class="title"> Edit Specific Availability </h1>
                     </header>
-                    
+                    <button id="addDate" onClick={addSpecific}>Save</button>
+                    //<Link to= "/edit-specific-availability
+                    <form onSubmit= {this.handleSubmit}>
+                        <div>
+                        <label class ="text">
+                            <div> 
+                            Start Date
+                            </div>
+                        </label>
+                       <div>
+                                <input type= "text" name= "Start Date" >
+                        </div>
+                        </div>
+                       <label class = "text">
+                           <div>
+                           End Date
+                           </div>
+
+                                
                 </body>
             </div>
          );
