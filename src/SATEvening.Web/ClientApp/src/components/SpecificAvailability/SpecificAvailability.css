@@ -20,6 +20,7 @@
     padding-top: 10px;
 }
 
+/* button change state */
 #Availability:hover {
     background-color: #2aa400;
     border: 3px solid black;
@@ -48,6 +49,7 @@
     white-space: normal;
 }
 
+/* button change state */
 #EditSpecificAvailability:hover {
     background-color: #4d91ff;
     border: 3px solid black;
