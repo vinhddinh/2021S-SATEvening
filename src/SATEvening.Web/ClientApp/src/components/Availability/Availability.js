@@ -8,6 +8,7 @@ import "./Availability.css";
 export class Availability extends Component {
     static displayName = Availability.name;
 
+    //calendar/ general availability Table
     initState = {
         savedCells: [],
         cells: [
@@ -49,6 +50,8 @@ export class Availability extends Component {
         };
         this.editGeneral = this.editGeneral.bind(this);
     }
+
+    //function called when edit/save button pressed chanign both state of the button and table
     editGeneral() {
         if (document.getElementById("editbutton").innerHTML === "Save") {
             this.setState({ savedCells: this.state.cells });
@@ -352,9 +355,9 @@ export class Availability extends Component {
           <td />
           <td />
           <td />
-                          <td />
-                          <td />
-                          <td />
+                            <td />
+                            <td />
+                            <td />
         </tr>
       </TableDragSelect>
       </div>

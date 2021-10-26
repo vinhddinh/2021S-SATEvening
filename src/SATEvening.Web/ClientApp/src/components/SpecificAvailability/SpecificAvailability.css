@@ -4,7 +4,8 @@
     width: 500px
 }
 
-#Availability {
+/*Availability page link*/
+#Availability2 {
     background-color: #38dd00;
     border: 3px solid black;
     text-align: center;
@@ -20,7 +21,7 @@
     padding-top: 10px;
 }
 
-#Availability:hover {
+#Availability2:hover {
     background-color: #2aa400;
     border: 3px solid black;
     text-align: center;
@@ -36,6 +37,7 @@
     padding-top: 10px;
 }
 
+/*edit specific availability link*/
 #EditSpecificAvailability {
     background-color: #0f4beB;
     border: 3px solid black;
@@ -46,20 +48,25 @@
     font-weight: bold;
     position: relative;
     white-space: normal;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-#EditSpecificAvailability:hover {
-    background-color: #4d91ff;
-    border: 3px solid black;
-    text-align: center;
-    font-size: 30px;
-    color: white;
-    text-decoration-color: #2aa400;
-    font-weight: bold;
-    position: relative;
-    white-space: normal;
-}
+    #EditSpecificAvailability:hover {
+        background-color: #4d91ff;
+        border: 3px solid black;
+        text-align: center;
+        font-size: 30px;
+        color: white;
+        text-decoration-color: #4d91ff;
+        font-weight: bold;
+        position: relative;
+        white-space: normal;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
 
+/*formatting heading*/
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -67,18 +74,71 @@
     max-width: 600px;
 }
 
-.edit {
-    
+/*table edit button*/
+.edit2 {
+    background-color: #ebebeb;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    padding: 5px 10px;
+    position: relative;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
 }
 
-.edit:hover {
-    
+.edit2:hover {
+    background-color: #b2b2b2;
+    border: 3px solid black;
+    text-align: center;
+    text-decoration-color: #b2b2b2;
+    font-size: 20px;
+    color: black;
+    padding: 5px 10px;
+    position: relative;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
 }
 
+/*table delete button*/
 .delete {
-    
+    background-color: #FF9B00;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    padding: 5px 10px;
+    position: relative;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
 }
 
 .delete:hover {
-    
+    background-color: #e6a034;
+    border: 3px solid black;
+    text-align: center;
+    text-decoration-color: #e6a034;
+    font-size: 20px;
+    color: black;
+    padding: 5px 10px;
+    position: relative;
+    width: 100px;
+    height: 75px;
+    white-space: normal;
+}
+
+/*table settings*/
+#table{
+    margin-top: 20px;
+}
+
+td{
+    text-align: center;
+}
+
+th {
+    text-align: center;
 }

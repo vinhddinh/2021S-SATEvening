@@ -3,6 +3,7 @@
     width: 500px
 }
 
+/*save button*/
 #save {
     background-color: #38dd00;
     border: 3px solid black;
@@ -35,6 +36,7 @@
     padding-top: 10px;
 }
 
+/*formatting heading*/
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -44,4 +46,20 @@
 
 #Table2 {
     width: 300px;
+}
+
+/*form settings*/
+#txtbox {
+    font-size: 18pt;
+    height: 40px;
+    width: 300px;
+}
+
+#formtxt {
+    font-size: 18pt;
+}
+
+#formtxt2 {
+    font-size: 18pt;
+    margin-top: 10px;
 }

@@ -11,10 +11,6 @@ export class SpecificAvailability extends Component {
 
     render() {
 
-        function addSpecific() { 
-
-        }
-
         return (
             <div>
                 <body>
@@ -22,11 +18,13 @@ export class SpecificAvailability extends Component {
                         <header>
                             <h1 class="title"> Specific Availability </h1>
                         </header>
-                        <Link to="/availability" id="Availability"> Save</Link>
+                        <Link to="/availability" id="Availability2"> Save</Link>
                     </div>
+
                     <Link to="/edit-specific-availability" id="EditSpecificAvailability"> Add Date</Link>
                 </body>
-
+                <div id="table">
+                {/*Table displaying all current specific availability*/}
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -46,7 +44,7 @@ export class SpecificAvailability extends Component {
                             <td>October 26th 2021</td>
                             <td>23:59</td>
                             <td>Not Available</td>
-                            <td><button class="edit">Edit</button></td>
+                            <td><button class="edit2">Edit</button></td>
                             <td><button class="delete">Delete</button></td>
                         </tr>
                         <tr>
@@ -55,7 +53,7 @@ export class SpecificAvailability extends Component {
                             <td>December 24th 2021</td>
                             <td>23:59</td>
                             <td>Not Available</td>
-                            <td><button class="edit">Edit</button></td>
+                            <td><button class="edit2">Edit</button></td>
                             <td><button class="delete">Delete</button></td>
                         </tr>
                         <tr>
@@ -64,11 +62,12 @@ export class SpecificAvailability extends Component {
                             <td>November 11th 2021</td>
                             <td>14:00</td>
                             <td>Not Available</td>
-                            <td><button class="edit">Edit</button></td>
+                            <td><button class="edit2">Edit</button></td>
                             <td><button class="delete">Delete</button></td>
                         </tr>
                     </tbody>
-                </Table>
+                    </Table>
+                    </div>
             </div>
          );
     }

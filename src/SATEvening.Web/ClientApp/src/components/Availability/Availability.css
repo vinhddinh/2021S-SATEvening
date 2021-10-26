@@ -56,7 +56,7 @@
 			border: 2px solid #4d91ff;
 		}
 
-
+/*Save/edit button*/
 .edit {
 	background-color: #0f4beB;
 	border: 3px solid black;
@@ -71,19 +71,19 @@
 	white-space: normal;
 }
 
-	.edit:hover {
-		background-color: #4d91ff;
-		border: 3px solid black;
-		text-align: center;
-		font-size: 30px;
-		color: #FFF;
-		font-weight: bold;
-		position: relative;
-		left: 100%;
-		width: 100px;
-		height: 75px;
-		white-space: normal;
-	}
+.edit:hover {
+	background-color: #4d91ff;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: #FFF;
+	font-weight: bold;
+	position: relative;
+	left: 100%;
+	width: 100px;
+	height: 75px;
+	white-space: normal;
+}
 
 .save {
 	background-color: #38dd00;
@@ -99,20 +99,21 @@
 	white-space: normal;
 }
 
-	.save:hover {
-		background-color: #2aa400;
-		border: 3px solid black;
-		text-align: center;
-		font-size: 30px;
-		color: white;
-		font-weight: bold;
-		position: relative;
-		left: 100%;
-		width: 100px;
-		height: 75px;
-		white-space: normal;
-	}
+.save:hover {
+	background-color: #2aa400;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: white;
+	font-weight: bold;
+	position: relative;
+	left: 100%;
+	width: 100px;
+	height: 75px;
+	white-space: normal;
+}
 
+/*specific availability link*/
 #SpecificAvailability {
 	background-color: #ebebeb;
 	border: 3px solid black;
@@ -163,6 +164,7 @@
 	width: 500px
 }
 
+/*formatting heading*/
 .grid{
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);

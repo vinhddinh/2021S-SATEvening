@@ -20,8 +20,8 @@ export default class App extends Component {
         <RouteWrapper path='/register' component={RegistrationForm} layout={LayoutNavMenu}/>
         <RouteWrapper path='/profile' component={Profile} layout={LayoutSidebar}/>
         <RouteWrapper path='/availability' component={Availability} layout={LayoutSidebar} />
-            <RouteWrapper path='/specific-availability' component={SpecificAvailability} layout={LayoutSidebar} />
-            <RouteWrapper path='/edit-specific-availability' component={EditSpecificAvailability} layout={LayoutSidebar} />
+        <RouteWrapper path='/specific-availability' component={SpecificAvailability} layout={LayoutSidebar} />
+        <RouteWrapper path='/edit-specific-availability' component={EditSpecificAvailability} layout={LayoutSidebar} />
       </Switch>
     );
   }

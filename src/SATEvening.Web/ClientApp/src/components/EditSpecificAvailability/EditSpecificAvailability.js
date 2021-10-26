@@ -7,6 +7,7 @@ import TableDragSelect from "react-table-drag-select";
 export class EditSpecificAvailability extends Component {
     static displayName = EditSpecificAvailability.name;
 
+    //Date Table
     initState = {
         savedCells: [],
         cells: [
@@ -59,21 +60,22 @@ export class EditSpecificAvailability extends Component {
                     </header>
                         <Link to="/specific-availability" id="save">Save</Link>
                     </div>
+                    {/* Dates for the specific availability table */}
                     <form>
                         <div>
-                            <label class="text"> Start Date </label>
+                            <label class="text" id="formtxt"> Start Date </label>
                         </div>
                         <div>
-                            <input type="text" name="Start Date" placeholder="October 25th" />
+                            <input type="text" name="Start Date" id="txtbox" placeholder="October 25th" />
                         </div>
                         <div>
-                            <label class="text"> End Date</label>
+                            <label class="text" id="formtxt2" > End Date</label> //
                         </div >
                         <div >
-                            <input type="text" name="End Date" placeholder="October 25th"/>
+                            <input type="text" name="End Date" id="txtbox" placeholder="October 25th"/>
                         </div>
                     </form>
-
+                    
                     <div id="Table2" class="myDisabledDiv">
                         <TableDragSelect
                             value={this.state.cells}
