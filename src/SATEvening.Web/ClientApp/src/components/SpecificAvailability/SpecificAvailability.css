@@ -21,7 +21,12 @@
     padding-top: 10px;
 }
 
+<<<<<<< HEAD
 #Availability2:hover {
+=======
+/* button change state */
+#Availability:hover {
+>>>>>>> 456d067e177fc15fba196c93736eababa45a558c
     background-color: #2aa400;
     border: 3px solid black;
     text-align: center;
@@ -52,6 +57,7 @@
     margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
     #EditSpecificAvailability:hover {
         background-color: #4d91ff;
         border: 3px solid black;
@@ -65,6 +71,20 @@
         margin-top: 10px;
         margin-bottom: 20px;
     }
+=======
+/* button change state */
+#EditSpecificAvailability:hover {
+    background-color: #4d91ff;
+    border: 3px solid black;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    text-decoration-color: #2aa400;
+    font-weight: bold;
+    position: relative;
+    white-space: normal;
+}
+>>>>>>> 456d067e177fc15fba196c93736eababa45a558c
 
 /*formatting heading*/
 .grid {
@@ -117,6 +137,7 @@
 }
 
 .delete:hover {
+<<<<<<< HEAD
     background-color: #e6a034;
     border: 3px solid black;
     text-align: center;
@@ -142,3 +163,7 @@ td{
 th {
     text-align: center;
 }
+=======
+    
+}
+>>>>>>> 456d067e177fc15fba196c93736eababa45a558c
