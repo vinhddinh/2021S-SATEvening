@@ -21,22 +21,21 @@
     padding-top: 10px;
 }
 
-#Availability2:hover {
-/* button change state */
-    background-color: #2aa400;
-    border: 3px solid black;
-    text-align: center;
-    font-size: 30px;
-    color: white;
-    text-decoration-color: #2aa400;
-    font-weight: bold;
-    position: relative;
-    left: 100%;
-    width: 100px;
-    height: 75px;
-    white-space: normal;
-    padding-top: 10px;
-}
+    #Availability2:hover {
+        background-color: #2aa400;
+        border: 3px solid black;
+        text-align: center;
+        font-size: 30px;
+        color: white;
+        text-decoration-color: #2aa400;
+        font-weight: bold;
+        position: relative;
+        left: 100%;
+        width: 100px;
+        height: 75px;
+        white-space: normal;
+        padding-top: 10px;
+    }
 
 /*edit specific availability link*/
 #EditSpecificAvailability {
@@ -44,7 +43,7 @@
     border: 3px solid black;
     text-align: center;
     font-size: 30px;
-    text-decoration-color: #38dd00;
+    text-decoration-color: #0f4beB;
     color: white;
     font-weight: bold;
     position: relative;
@@ -53,30 +52,18 @@
     margin-bottom: 20px;
 }
 
-    #EditSpecificAvailability:hover {
-        background-color: #4d91ff;
-        border: 3px solid black;
-        text-align: center;
-        font-size: 30px;
-        color: white;
-        text-decoration-color: #4d91ff;
-        font-weight: bold;
-        position: relative;
-        white-space: normal;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-/* button change state */
 #EditSpecificAvailability:hover {
     background-color: #4d91ff;
     border: 3px solid black;
     text-align: center;
     font-size: 30px;
     color: white;
-    text-decoration-color: #2aa400;
+    text-decoration-color: #4d91ff;
     font-weight: bold;
     position: relative;
     white-space: normal;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 /*formatting heading*/
