@@ -69,7 +69,7 @@ export class EditSpecificAvailability extends Component {
                             <input type="text" name="Start Date" id="txtbox" placeholder="October 25th" />
                         </div>
                         <div>
-                            <label class="text" id="formtxt2" > End Date</label> //
+                            <label class="text" id="formtxt2" > End Date</label>
                         </div >
                         <div >
                             <input type="text" name="End Date" id="txtbox" placeholder="October 25th"/>
