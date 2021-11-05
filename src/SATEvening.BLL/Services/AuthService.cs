@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SATEvening.BLL.Exceptions;
@@ -42,6 +43,30 @@ namespace SATEvening.BLL.Services
             _signInManager = signInManager;
             _tokenService = tokenService;
             _emailService = emailService;
+        }
+
+        public async Task<UserResponseModel> ConfirmEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("Could not confirm this user's email as they user does not exist");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+                throw new BadRequestException("Confirming Email Failed: Unable to validate email");
+            }
+
+            return new UserResponseModel
+            {
+                FullName = string.Join(" ", user.FirstName, user.LastName),
+                Email = user.Email,
+                Token = _tokenService.GenerateToken(user)
+            };
         }
 
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
@@ -84,7 +109,7 @@ namespace SATEvening.BLL.Services
                 throw new BadRequestException(result.Errors.FirstOrDefault().Description);
             }
 
-            await _emailService.SendEmailAsync(user.Email);
+            await _emailService.SendEmailAsync(user);
 
             return new UserResponseModel
             {
