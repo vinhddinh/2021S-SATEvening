@@ -37,10 +37,7 @@ export class RegistrationForm extends Component {
 
             const { message, isError, ...registrationDetails } = this.state;
             await this.authService.register(registrationDetails);
-            this.setState({
-                message: "Registration Successful",
-                isError: false
-            });
+            this.props.history.push("/confirm-email");
         } catch(error) {
             this.setState({
                 message: error.message,
@@ -159,7 +156,7 @@ export class RegistrationForm extends Component {
                             <Link to="/"><button className="subButton">Go Back To Log In</button></Link>
                         </div>
                     </form>
-                    <p className={this.state.isError ? "text-danger" : "text-primary"}>{this.state.message}</p>
+                    <p className={this.state.isError && "text-danger"}>{this.state.message}</p>
                 </div>
             </div>
         );
