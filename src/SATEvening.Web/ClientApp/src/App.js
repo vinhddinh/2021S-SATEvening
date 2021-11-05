@@ -7,6 +7,8 @@ import { RegistrationForm } from './components/Registration/RegistrationForm';
 import { LayoutNavMenu, LayoutSidebar } from './components/Layout/Layout';
 import './custom.css'
 import AuthService from './Services/AuthService';
+import { VerifiedEmail } from './components/Email/VerifiedEmail';
+import { ConfirmEmail } from './components/Email/ConfirmEmail';
 
 
 export default class App extends Component {
@@ -19,6 +21,8 @@ export default class App extends Component {
         <RouteWrapper path='/register' component={RegistrationForm} layout={LayoutNavMenu}/>
         <PrivateRoute path='/profile' component={Profile} layout={LayoutSidebar}/>
         <PrivateRoute path='/availability' component={Availability} layout={LayoutSidebar}/>
+        <RouteWrapper path='/verified-email' component={VerifiedEmail} layout={LayoutNavMenu}/>
+        <RouteWrapper path='/confirm-email' component={ConfirmEmail} layout={LayoutNavMenu}/>
       </Switch>
     );
   }
