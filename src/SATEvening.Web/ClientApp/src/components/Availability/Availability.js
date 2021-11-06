@@ -1,6 +1,7 @@
 ﻿import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
 import "./Availability.css";
+import AvailabilityService from '../../Services/AvailabilityService';
 
 export class Availability extends Component {
   static displayName = Availability.name;
@@ -37,22 +38,59 @@ export class Availability extends Component {
         [false, false, false, false, false, false],
         [false, false, false, false, false, false],
         [false, false, false, false, false, false]
-      ]
+      ],
+
+      userID: "b0855012-f026-4343-a40d-a26485292ba8"  //local
+      //userID: "2b53e016-da69-4cf1-b395-b7ba4816b7fb"  //remote
     }
 
+    this.availabilityService = new AvailabilityService();
+
+    this.stringToTable = this.stringToTable.bind(this);
+    this.tableToString = this.tableToString.bind(this);
+    this.stringToTable = this.stringToTable.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.getAvailability = this.getAvailability.bind(this);
   };
 
-  handleChange(cells) {
-
-    this.setState({ cells });
+  componentDidMount() {
+    this.getAvailability();
 	}
+
+  async handleChange(cells) {
+    this.setState({ cells });
+    this.availabilityService.updateAvailability(this.state.userID, this.tableToString(this.state.cells));
+  }
+
+  async getAvailability() {
+    var a = this.stringToTable(await this.availabilityService.getAvailability(this.state.userID), this.state.cells);
+    this.setState({...this.state, cells: a });
+  }
+
+  tableToString(table) {
+    var result = "";
+    for (var i = 0; i < table.length; i++) {
+      for (var j = 0; j < table[i].length; j++) {
+        result += (table[i][j] === true ? '1' : '0');
+      }
+    }
+    return result;
+  }
+
+  stringToTable(availabilityString, table) {
+    for (var i = 0; i < table.length; i++) {
+      for (var j = 0; j < table[i].length; j++) {
+        table[i][j] = availabilityString[i * table[i].length + j] === '1';
+      }
+    }
+  return table;
+}
 
   render() {
     return (
       <TableDragSelect
         value={this.state.cells}
-        onChange={e => this.handleChange(e)}
+        onChange={cells => this.handleChange(cells)}
       >
         <tr>
           <td disabled />
