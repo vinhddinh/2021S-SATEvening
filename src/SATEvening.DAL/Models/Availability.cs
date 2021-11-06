@@ -18,7 +18,7 @@ namespace SATEvening.DAL.Models
         [Required]
         public DateTime CreatedAt { get; set; }
         [Required]
-        public AppUser AppUser { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 
     public class SpecificAvailability
@@ -33,6 +33,6 @@ namespace SATEvening.DAL.Models
         [Required]
         public DateTime LastModifiedAt { get; set; }
         [Required]
-        public AppUser AppUser { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }
