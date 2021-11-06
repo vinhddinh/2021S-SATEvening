@@ -6,7 +6,7 @@ export class ConfirmEmail extends Component {
 
     render() {
         return (
-            <div clasName="bg">
+            <div className="bg">
                 <div className="childs">
                     <h1 className="center"> Check Email </h1>
                     <p className="center"> An email has been sent to: </p>

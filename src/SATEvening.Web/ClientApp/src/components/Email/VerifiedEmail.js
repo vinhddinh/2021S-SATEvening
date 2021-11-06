@@ -6,7 +6,7 @@ export class VerifiedEmail extends Component {
 
     render() {
         return (
-            <div clasName="bg">
+            <div className="bg">
                 <div className="childs">
                     <h1 className="center"> Verified </h1>
                     <p className="center"> Your email: </p>
