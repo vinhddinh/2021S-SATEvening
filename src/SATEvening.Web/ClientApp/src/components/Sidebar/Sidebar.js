@@ -18,16 +18,7 @@ export class Sidebar extends Component {
             <a href="/availability">Availability</a>
           </li>
           <li>
-            <a href="#">Dashboard</a>
-          </li>
-          <li>
             <a href="/profile">Profile</a>
-          </li>
-          <li>
-            <a href="#">Settings</a>
-          </li>
-          <li>
-            <a href="#">Support</a>
           </li>
         </ul>
       </div>
