@@ -2,29 +2,40 @@
 using SATEvening.BLL.Services;
 using SATEvening.DAL.Models;
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SATEvening.DAL.Contexts;
+using SATEvening.BLL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SATEvening.BLL.Services
 {
-    public class AvailabilityService : IAvailability
+    public class AvailabilityService : IAvailabilityService
     {
+        private readonly IdentityDataContext _context;
+
         private readonly TimeSpan Interval = TimeSpan.Parse("00:30");
         private readonly TimeSpan BaseTime = TimeSpan.Parse("08:00");
         //time is from 8AM to 9PM with 30 minute intervals, using TimeSpan from midnight
         //day is from Monday to Friday, iirc UTS doesn't do weekend classes
 
-        public Task UpdateAvailability(bool[,] cells)
+        public AvailabilityService(IdentityDataContext context)
         {
+            _context = context;
+        }
+
+        public async Task UpdateAvailability(UpdateAvailabilityRequestModel model)
+        {
+            bool[,] cells = new bool[27, model.AvailabilityString.Length/27];
+            cells = StringToTable(model.AvailabilityString, cells);
+            AppUser User = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
             //cells is 6x27, including the row and column used to display day of week and time of day
 
+            bool[,] oldAvailability = await GetAvailability(User);
             bool[,] newAvailability = TrimTable(0, 0, cells); //remove the padding to get to the actual data with a 5x26 table
-            bool[,] oldAvailability = new bool[26, 5];
-
-            IdentityDataContext context = new();
 
             for (int t = 0; t < newAvailability.GetLength(0); t++) //iterate through time of day
             {
@@ -32,44 +43,51 @@ namespace SATEvening.BLL.Services
                 {
                     if (newAvailability[t, d] == true && oldAvailability[t,d] == false)
                     {
-                        CreateAvailability(new AppUser(), BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
+                        await CreateAvailability(User, BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
                     }
 
                     else if (newAvailability[t, d] == false && oldAvailability[t, d] == true)
                     {
-                        DeleteAvailability(new AppUser(), BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
+                        await DeleteAvailability(User, BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
                     }
                 }
             }
 
-            throw new NotImplementedException();
+            return ;
         }
 
-        Task DeleteAvailability(AppUser appUser, TimeSpan timeSpan, DayOfWeek dayOfWeek, TimeSpan interval)
+        //this returns the availability string for a given user
+        public async Task<GetAvailabilityResponseModel> GetAvailabilityByUserID(string UserID)
         {
-            throw new NotImplementedException();
+            AppUser User = await _context.Users.FirstOrDefaultAsync(u => u.Id == UserID);
+            bool[,] table = PadTable(await GetAvailability(User));
+
+            return new GetAvailabilityResponseModel
+            {
+                UserId = UserID,
+                AvailabilityString = TableToString(table)
+            };
         }
 
-        //this returns the entire table, including cells for labels
-        public Task<bool[,]> GetAvailability(AppUser User)
+        async Task<bool[,]> GetAvailability(AppUser User)
         {
-            IdentityDataContext context = new();
-            string UserID = User.Id;
+            var availabilities = await _context.Availabilities.Where(a => a.AppUser.Id == User.Id).ToListAsync();
+            bool[,] availabilityTable = new bool[26, 5]; //this table doesn't have padding
 
-            IEnumerable<Availability> userAvailabilities = (from a in context.Availabilities
-                                                            where a.AppUser.Id == UserID
-                                                            select a);
-            bool[,] availabilityTable = new bool[26, 5];
-
-
-            throw new NotImplementedException();
+            int t, d; //t is time index, d is day index
+            foreach (Availability availability in availabilities)
+            {
+                //convert starttime into index in table
+                t = Convert.ToInt32((availability.StartTime - BaseTime) / Interval);
+                //convert day into index in table, monday should be 0, sunday should be 7
+                d = (((int)availability.Day) - 1) % 8;
+                availabilityTable[t, d] = true;
+            }
+            return availabilityTable;
         }
 
-        public Task CreateAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval)
+        async Task CreateAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval)
         {
-
-            IdentityDataContext context = new();
-
             Availability availability = new()
             {
                 StartTime = StartTime,
@@ -79,16 +97,26 @@ namespace SATEvening.BLL.Services
                 AppUser = AppUser
             };
 
-            context.Availabilities.Add(availability);
-            context.SaveChanges();
+            _context.Availabilities.Add(availability);
+            await _context.SaveChangesAsync();
             
-            return Task.CompletedTask;
+            return ;
         }
-
-        bool[,] TableToAvailability(IEnumerable<Availability> availabilities)
+        async Task DeleteAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval)
         {
+            Availability availability = new()
+            {
+                StartTime = StartTime,
+                EndTime = StartTime + Interval,
+                Day = Day,
+                AppUser = AppUser
+            };
 
-            throw new NotImplementedException();
+            availability = await _context.Availabilities.SingleOrDefaultAsync(a => a.StartTime == StartTime && a.Day == Day && a.AppUser.Id == AppUser.Id);
+            _context.Availabilities.Remove(availability);
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
         static bool[,] TrimTable(int rowToRemove, int columnToRemove, bool[,] originalArray)
@@ -112,6 +140,47 @@ namespace SATEvening.BLL.Services
             }
 
             return result;
+        }
+
+        static bool[,] PadTable(bool[,] originalTable)
+        {
+            int rows = originalTable.GetLength(0);
+            int cols = originalTable.GetLength(1);
+            bool[,] paddedTable = new bool[rows + 1, cols + 1];
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    paddedTable[i + 1, j + 1] = originalTable[i, j];
+                }
+            }
+            return paddedTable;
+        }
+
+        static string TableToString(bool[,] table)
+        {
+            var result = "";
+            for (var i = 0; i < table.GetLength(0); i++)
+            {
+                for (var j = 0; j < table.GetLength(1); j++)
+                {
+                    result += (table[i, j] ? '1' : '0');
+                }
+            }
+            return result;
+        }
+
+        //Convert availabilityString ('0101111000101...') to availabilityTable ([[false, true, false, true,...],...])
+        bool[,] StringToTable(string availabilityString, bool[,] table)
+        {
+            for (int i = 0; i < table.GetLength(0); i++)
+            {
+                for (int j = 0; j < table.GetLength(1); j++)
+                {
+                    table[i, j] = availabilityString[i * table.GetLength(1) + j] == '1';
+                }
+            }
+            return table;
         }
     }
 }
