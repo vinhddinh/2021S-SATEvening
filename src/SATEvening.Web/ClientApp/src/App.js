@@ -21,6 +21,7 @@ export default class App extends Component {
         <RouteWrapper path='/register' component={RegistrationForm} layout={LayoutNavMenu}/>
         <PrivateRoute path='/profile' component={Profile} layout={LayoutSidebar}/>
         <PrivateRoute path='/availability' component={Availability} layout={LayoutSidebar} />
+        <PrivateRoute path='/specific-availability' component={SpecificAvailability} layout={LayoutSidebar} />
         <PrivateRoute path='/edit-specific-availability' component={EditSpecificAvailability} layout={LayoutSidebar} />
       </Switch>
     );
