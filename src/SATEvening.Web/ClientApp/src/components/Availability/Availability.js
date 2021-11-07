@@ -53,18 +53,20 @@ export class Availability extends Component {
     this.getAvailability = this.getAvailability.bind(this);
   };
 
-  componentDidMount() {
-    this.getAvailability();
+  async componentDidMount() {
+     await this.getAvailability();
 	}
 
-  async handleChange(cells) {
-    this.setState({ cells });
+  async handleChange(table) {
+    this.setState({...this.state, cells : table });
     this.availabilityService.updateAvailability(this.state.userID, this.tableToString(this.state.cells));
   }
 
   async getAvailability() {
-    var a = this.stringToTable(await this.availabilityService.getAvailability(this.state.userID), this.state.cells);
-    this.setState({...this.state, cells: a });
+    var availabilityString = await this.availabilityService.getAvailability(this.state.userID);
+    console.log(availabilityString);
+    var availabilityTable = this.stringToTable(availabilityString, this.state.cells);
+    this.setState({ ...this.state, cells: availabilityTable });
   }
 
   tableToString(table) {

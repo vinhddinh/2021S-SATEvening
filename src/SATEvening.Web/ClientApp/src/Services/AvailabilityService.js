@@ -7,6 +7,6 @@ export default class AvailabilityService {
 
 	async getAvailability(userID) {
 		const availabilityString = await WebService.post("https://localhost:5001/api/availability/get", { userID });;
-		return availabilityString;
+		return availabilityString.availabilityString;
 	}
 }
