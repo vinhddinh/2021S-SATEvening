@@ -73,7 +73,7 @@ namespace SATEvening.BLL.Services
         async Task<bool[,]> GetAvailability(AppUser User)
         {
             var availabilities = await _context.Availabilities.Where(a => a.AppUser.Id == User.Id).ToListAsync();
-            bool[,] availabilityTable = new bool[26, 5]; //this table doesn't have padding
+            bool[,] availabilityTable = new bool[26, 7]; //this table doesn't have padding
 
             int t, d; //t is time index, d is day index
             foreach (Availability availability in availabilities)
