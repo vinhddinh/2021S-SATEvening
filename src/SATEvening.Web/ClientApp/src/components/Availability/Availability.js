@@ -74,7 +74,6 @@ export class Availability extends Component {
 
     async getAvailability() {
         var availabilityString = await this.availabilityService.getAvailability(this.state.userID);
-        console.log(availabilityString);
         var availabilityTable = this.stringToTable(availabilityString, this.state.cells);
         this.setState({ ...this.state, cells: availabilityTable });
     }
@@ -127,7 +126,7 @@ export class Availability extends Component {
                     </body>
                     <button id="editbutton" className="edit" onClick={() => this.editGeneral()}>Edit</button>
                     <br></br>
-                    <Link to="/specific-availability" id="SpecificAvailability"> Edit Specific Availabilities</Link>
+                    <Link to="/availability/specific" id="SpecificAvailability"> Edit Specific Availabilities</Link>
                 </div>
                 <div id="Table1" className="myDiv">
                     <TableDragSelect
