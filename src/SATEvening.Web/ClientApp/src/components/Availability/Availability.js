@@ -138,7 +138,7 @@ export class Availability extends Component {
          >
   async componentDidMount() {
      await this.getAvailability();
-	}
+    }
 
   async handleChange(table) {
     this.setState({...this.state, cells : table });
