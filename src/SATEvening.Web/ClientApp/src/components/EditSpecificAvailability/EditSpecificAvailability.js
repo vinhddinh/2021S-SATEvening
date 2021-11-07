@@ -53,7 +53,7 @@ export class EditSpecificAvailability extends Component {
 
         return (
             <div>
-                <body>
+                <div>
                     <div class="grid">
                     <header>
                         <h1 id="title"> Edit Specific Availability </h1>
@@ -191,7 +191,7 @@ export class EditSpecificAvailability extends Component {
                             </tr>
                         </TableDragSelect>
                     </div>
-                </body>
+                </div>
             </div>
          );
     }

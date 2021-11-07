@@ -13,7 +13,7 @@ export class SpecificAvailability extends Component {
 
         return (
             <div>
-                <body>
+                <div>
                     <div class="grid">
                         <header>
                             <h1 class="title"> Specific Availability </h1>
@@ -22,7 +22,7 @@ export class SpecificAvailability extends Component {
                     </div>
 
                     <Link to="/edit-specific-availability" id="EditSpecificAvailability"> Add Date</Link>
-                </body>
+                </div>
                 <div id="table">
                 {/*Table displaying all current specific availability*/}
                 <Table striped bordered hover>
