@@ -32,6 +32,7 @@ namespace SATEvening.BLL.Services
             bool[,] cells = new bool[27, model.AvailabilityString.Length/27];
             cells = StringToTable(model.AvailabilityString, cells);
             AppUser User = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+            List<Availability> UserAvailabilities = await _context.Availabilities.Where(ua => ua.AppUser == User).ToListAsync();
             //cells is 6x27, including the row and column used to display day of week and time of day
 
             bool[,] oldAvailability = await GetAvailability(User);
@@ -43,16 +44,16 @@ namespace SATEvening.BLL.Services
                 {
                     if (newAvailability[t, d] == true && oldAvailability[t,d] == false)
                     {
-                        await CreateAvailability(User, BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
+                        CreateAvailability(User, BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
                     }
 
                     else if (newAvailability[t, d] == false && oldAvailability[t, d] == true)
                     {
-                        await DeleteAvailability(User, BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval);
+                        DeleteAvailability(User, BaseTime + TimeSpan.FromMinutes(Interval.Minutes * t), ((DayOfWeek)((d + 1) % 7)), Interval, UserAvailabilities);
                     }
                 }
             }
-
+            await _context.SaveChangesAsync();
             return ;
         }
 
@@ -86,7 +87,7 @@ namespace SATEvening.BLL.Services
             return availabilityTable;
         }
 
-        async Task CreateAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval)
+        void CreateAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval)
         {
             Availability availability = new()
             {
@@ -98,25 +99,12 @@ namespace SATEvening.BLL.Services
             };
 
             _context.Availabilities.Add(availability);
-            await _context.SaveChangesAsync();
-            
-            return ;
         }
-        async Task DeleteAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval)
+
+        void DeleteAvailability(AppUser AppUser, TimeSpan StartTime, DayOfWeek Day, TimeSpan Interval, List<Availability> UserAvailabilities)
         {
-            Availability availability = new()
-            {
-                StartTime = StartTime,
-                EndTime = StartTime + Interval,
-                Day = Day,
-                AppUser = AppUser
-            };
-
-            availability = await _context.Availabilities.SingleOrDefaultAsync(a => a.StartTime == StartTime && a.Day == Day && a.AppUser.Id == AppUser.Id);
+            Availability availability = UserAvailabilities.FirstOrDefault(a => a.StartTime == StartTime && a.EndTime == StartTime + Interval && a.Day == Day && a.AppUser.Id == AppUser.Id);
             _context.Availabilities.Remove(availability);
-            await _context.SaveChangesAsync();
-
-            return;
         }
 
         static bool[,] TrimTable(int rowToRemove, int columnToRemove, bool[,] originalArray)

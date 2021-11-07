@@ -42,7 +42,7 @@ namespace SATEvening
 
             services.AddDbContext<IdentityDataContext>(options => 
             {
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(Configuration.GetConnectionString("RemoteConnection"));
             });
 
             services.AddIdentity<AppUser, IdentityRole>()
