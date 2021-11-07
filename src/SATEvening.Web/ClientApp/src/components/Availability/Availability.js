@@ -126,7 +126,7 @@ export class Availability extends Component {
                     </body>
                     <button id="editbutton" className="edit" onClick={() => this.editGeneral()}>Edit</button>
                     <br></br>
-                    <Link to="/availability/specific" id="SpecificAvailability"> Edit Specific Availabilities</Link>
+                    <Link to="/specific-availability" id="SpecificAvailability"> Edit Specific Availabilities</Link>
                 </div>
                 <div id="Table1" className="myDiv">
                     <TableDragSelect
