@@ -80,8 +80,8 @@ namespace SATEvening.BLL.Services
             {
                 //convert starttime into index in table
                 t = Convert.ToInt32((availability.StartTime - BaseTime) / Interval);
-                //convert day into index in table, monday should be 0, sunday should be 7
-                d = (((int)availability.Day) - 1) % 8;
+                //convert day into index in table, monday should be 0, sunday should be 6
+                d = (((int)availability.Day) + 7 - 1) % 7;
                 availabilityTable[t, d] = true;
             }
             return availabilityTable;
