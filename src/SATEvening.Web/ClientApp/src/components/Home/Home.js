@@ -9,7 +9,7 @@ export class Home extends Component {
         super(props);
 
         this.state = {
-            username: "",
+            email: "",
             password: "",
             message: ""
         };
@@ -27,15 +27,15 @@ export class Home extends Component {
     async handleSubmit(event) {
         event.preventDefault();
 
-        if (this.state.username === "" || this.state.password === "") {
+        if (this.state.email === "" || this.state.password === "") {
             this.setState({
                 message: "Fields are required"
             });
         }
 
         try {
-            const { username, password } = this.state;
-            await this.authService.signIn(username, password);
+            const { email, password } = this.state;
+            await this.authService.signIn(email, password);
             this.props.history.push("/profile");
         } catch(error) {
             this.setState({
@@ -52,10 +52,10 @@ export class Home extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>
-                                Username:
+                                Email:
                         </label>
                         <div>
-                            <input type="text" name="username" value={this.state.value} onChange={this.handleChange} style = {{ width: "350px" }} />
+                            <input type="text" name="email" value={this.state.value} onChange={this.handleChange} style = {{ width: "350px" }} />
                         </div>
                     </div>
                     <div>

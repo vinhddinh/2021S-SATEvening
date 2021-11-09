@@ -10,6 +10,6 @@ namespace SATEvening.BLL.Services.Interfaces
     {
         Task<UserResponseModel> RegisterAsync(UserRequestModel user);
         Task<UserResponseModel> LoginAsync(LoginRequestModel user);
-        Task<AppUser> FindUserByName(string username);
+        Task<UserResponseModel> ConfirmEmail(string userId, string token);
     }
 }

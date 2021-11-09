@@ -19,7 +19,7 @@ Scheduling assistant tool
 ### Backend
 * ASP.NET Core
 * Entity Framework Core with EF Migrations
-* SQLite as development database
+* PostgreSQL Database on Amazon RDS server
 ### Frontend
 * React
 * Bootstrap CSS

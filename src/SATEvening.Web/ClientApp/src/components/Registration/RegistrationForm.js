@@ -12,8 +12,8 @@ export class RegistrationForm extends Component {
         this.state = {
             firstname:"",
             lastname:"",
-            username: "",
             password: "",
+            confirmpassword: "",
             email:"",
             message: "",
             isError: false
@@ -33,16 +33,22 @@ export class RegistrationForm extends Component {
         event.preventDefault();
 
         try {
+            this.handlePassword();
+
             const { message, isError, ...registrationDetails } = this.state;
             await this.authService.register(registrationDetails);
-            this.setState({
-                message: "Registration Successful"
-            });
+            this.props.history.push("/confirm-email");
         } catch(error) {
             this.setState({
-                message: "An error occurred. Please wait or try again.",
+                message: error.message,
                 isError: true
             });
+        }
+    }
+
+    handlePassword() {
+        if (this.state.password !== this.state.confirmpassword) {
+            throw new Error("Password is not the same. Try again");
         }
     }
 
@@ -89,11 +95,14 @@ export class RegistrationForm extends Component {
                         <div>
                             <label className="labelText">
                                 <div>
-                                    Username*
+                                    UTS Email Address*
+                                </div>
+                                <div className="additionalInfo">
+                                    Using First name, Last name
                                 </div>
                             </label>
                             <div>
-                                <input type="text" name="username" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                                <input type="text" name="email" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
                             </div>
                         </div>
                         <div>
@@ -119,19 +128,6 @@ export class RegistrationForm extends Component {
                         <div>
                             <label className="labelText">
                                 <div>
-                                    UTS Email Address*
-                                </div>
-                                <div className="additionalInfo">
-                                    Using First name, Last name
-                                </div>
-                            </label>
-                            <div>
-                                <input type="text" name="email" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="labelText">
-                                <div>
                                     Password*
                                 </div>
                                 <div className="additionalInfo">
@@ -141,6 +137,17 @@ export class RegistrationForm extends Component {
                             <div>
                                 <input type="password" name="password" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
                             </div>
+                            <label className="labelText">
+                                <div>
+                                    Confirm Password*
+                                </div>
+                                <div className="additionalInfo">
+                                    Re-enter your password
+                                </div>
+                            </label>
+                            <div>
+                                <input type="password" name="confirmpassword" value={this.state.value} onChange={this.handleChange} style={{ width: "350px" }} />
+                            </div>
                         </div>
                         <div className="center">
                             <input className="button" type="submit" value="Register" style={{ width: "150px" }} />
@@ -149,7 +156,7 @@ export class RegistrationForm extends Component {
                             <Link to="/"><button className="subButton">Go Back To Log In</button></Link>
                         </div>
                     </form>
-                    <p className={this.state.isError ? "text-danger" : "text-primary"}>{this.state.message}</p>
+                    <p className={this.state.isError && "text-danger"}>{this.state.message}</p>
                 </div>
             </div>
         );
