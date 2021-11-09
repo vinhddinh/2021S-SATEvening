@@ -8,15 +8,14 @@ export class VerifiedEmail extends Component {
         return (
             <div className="bg">
                 <div className="childs">
-                    <h1 className="center"> Verified </h1>
-                    <p className="center"> Your email: </p>
-                    <p className="center"> I'm not sure how to get the email here </p>
+                    <h1 className="center">Verified</h1>
+                    <p className="center">Your email has been verified.</p>
                     <div>   
-                        <p className="center"> You may now continue to use the </p>
-                        <p className="center"> My Scheduling Assistant tool as a Tutor </p>
+                        <p className="center">You may login now to use the</p>
+                        <p className="center">My Scheduling Assistant tool as a Tutor</p>
                     </div>
                     <div className="center">
-                        <Link to="/availability"><button className="button">Go to Dash Board</button></Link>
+                        <Link to="/"><button className="button">Go to Login</button></Link>
                     </div>
                 </div>
             </div>
