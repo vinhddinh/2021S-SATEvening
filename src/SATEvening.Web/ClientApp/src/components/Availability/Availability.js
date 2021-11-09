@@ -50,7 +50,7 @@ export class Availability extends Component {
             cells: this.initState.cells,
 
             //userID: "b0855012-f026-4343-a40d-a26485292ba8"  //local
-            userID: "2b53e016-da69-4cf1-b395-b7ba4816b7fb"  //remote
+            userID: "638d88e2-a229-46c7-bf2c-fe7235bd56d0"  //remote
         };
 
         this.availabilityService = new AvailabilityService();
