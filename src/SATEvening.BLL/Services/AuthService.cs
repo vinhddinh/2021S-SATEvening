@@ -118,7 +118,7 @@ namespace SATEvening.BLL.Services
                 Token = _tokenService.GenerateToken(user)
             };
         }
-
+        
         private async Task<AppUser> FindUserByEmail(string email)
         {
             return await _userManager.FindByEmailAsync(email);

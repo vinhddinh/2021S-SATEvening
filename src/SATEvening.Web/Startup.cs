@@ -44,7 +44,7 @@ namespace SATEvening
 
             services.AddDbContext<IdentityDataContext>(options => 
             {
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(Configuration.GetConnectionString("RemoteConnection"));
             });
 
             services.AddIdentity<AppUser, IdentityRole>()
@@ -53,6 +53,7 @@ namespace SATEvening
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAvailabilityService, AvailabilityService>();
 
             services.AddTransient<IEmailService, EmailService>();
 

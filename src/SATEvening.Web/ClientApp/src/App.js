@@ -3,6 +3,8 @@ import { Redirect, Route, Switch } from 'react-router';
 import { Home } from './components/Home/Home';
 import { Profile } from './components/Profile/Profile';
 import { Availability } from './components/Availability/Availability';
+import { SpecificAvailability } from './components/SpecificAvailability/SpecificAvailability';
+import { EditSpecificAvailability } from './components/EditSpecificAvailability/EditSpecificAvailability';
 import { RegistrationForm } from './components/Registration/RegistrationForm';
 import { LayoutNavMenu, LayoutSidebar } from './components/Layout/Layout';
 import './custom.css'
@@ -20,7 +22,9 @@ export default class App extends Component {
         <RouteWrapper exact path='/' component={Home} layout={LayoutNavMenu}/>
         <RouteWrapper path='/register' component={RegistrationForm} layout={LayoutNavMenu}/>
         <PrivateRoute path='/profile' component={Profile} layout={LayoutSidebar}/>
-        <PrivateRoute path='/availability' component={Availability} layout={LayoutSidebar}/>
+        <PrivateRoute path='/availability' component={Availability} layout={LayoutSidebar} />
+        <PrivateRoute path='/specific-availability' component={SpecificAvailability} layout={LayoutSidebar} />
+        <PrivateRoute path='/edit-specific-availability' component={EditSpecificAvailability} layout={LayoutSidebar} />
         <RouteWrapper path='/verified-email' component={VerifiedEmail} layout={LayoutNavMenu}/>
         <RouteWrapper path='/confirm-email' component={ConfirmEmail} layout={LayoutNavMenu}/>
       </Switch>

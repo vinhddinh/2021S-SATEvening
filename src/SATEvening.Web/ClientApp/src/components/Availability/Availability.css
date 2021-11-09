@@ -1,7 +1,7 @@
 ﻿.table-drag-select {
 	/* Stretch horizontally to fill parent */
 	width: 100%;
-	max-width: 500px;
+	max-width: 700px;
 	/* Keep columns same width */
 	table-layout: fixed;
 	/* Disable text selection */
@@ -22,7 +22,7 @@
    * because clicking an element's margin doesn't trigger events */
 		background-clip: padding-box;
 		/* Make cells reasonable size */
-		line-height: 2rem;
+		line-height: 1.7rem;
 		/* Shows more text when text too big to fit into cell */
 		padding-left: 0rem;
 		padding-right: 0rem;
@@ -38,6 +38,7 @@
 
 		/* Cells that cannot be interacted with */
 		.table-drag-select td.cell-disabled {
+
 		}
 
 		/* Cells that have been selected */
@@ -45,12 +46,125 @@
 			background-color: #4d91ff;
 		}
 
-		.table-drag-select .cell-selected td.cell-being-selected {
-			background-color: #fff !important;
-		}
-
 		/* Cells that are in the process of being selected */
 		.table-drag-select td.cell-being-selected {
 			background-color: #4d91ff;
 			border: 2px solid #4d91ff;
 		}
+
+/*Save/edit button*/
+.edit {
+	background-color: #0f4beB;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: #FFF;
+	font-weight: bold;
+	position: relative;
+	left: 100%;
+	width: 100px;
+	height: 75px;
+	white-space: normal;
+}
+
+.edit:hover {
+	background-color: #4d91ff;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: #FFF;
+	font-weight: bold;
+	position: relative;
+	left: 100%;
+	width: 100px;
+	height: 75px;
+	white-space: normal;
+}
+
+.save {
+	background-color: #38dd00;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: white;
+	font-weight: bold;
+	position: relative;
+	left: 100%;
+	width: 100px;
+	height: 75px;
+	white-space: normal;
+}
+
+.save:hover {
+	background-color: #2aa400;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 30px;
+	color: white;
+	font-weight: bold;
+	position: relative;
+	left: 100%;
+	width: 100px;
+	height: 75px;
+	white-space: normal;
+}
+
+/*specific availability link*/
+#SpecificAvailability {
+	background-color: #ebebeb;
+	border: 3px solid black;
+	text-align: center;
+	font-size: 20px;
+	color: black;
+	padding: 5px 10px;
+	position: relative;
+	left: 60%;
+	width: 200px;
+	height: 75px;
+	white-space: normal;
+}
+
+#SpecificAvailability:hover {
+	background-color: #b2b2b2;
+	border: 3px solid black;
+	text-align: center;
+	text-decoration-color: #b2b2b2; 
+	font-size: 20px;
+	color: black;
+	padding: 5px 10px;
+	position: relative;
+	left: 60%;
+	width: 200px;
+	height: 75px;
+	white-space: normal;
+}
+
+/*table div*/
+.myDiv {
+	pointer-events: none;
+	margin-left: 10%;
+	margin-right: 10%;
+	width: 80%;
+}
+
+.myDisabledDiv {
+	margin-left: 10%;
+	margin-right: 10%;
+	width: 80%;
+}
+
+
+
+.title{
+	font-size: 50px;
+	width: 500px
+}
+
+/*formatting heading*/
+.grid{
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+
+	width: 80%;
+	max-width: 600px;
+}
