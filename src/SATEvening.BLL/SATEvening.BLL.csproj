@@ -11,6 +11,7 @@
     <None Remove="Exceptions\" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Settings\" />
+    <None Remove="SendGrid" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -24,5 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+    <PackageReference Include="SendGrid" Version="9.24.3" />
   </ItemGroup>
 </Project>

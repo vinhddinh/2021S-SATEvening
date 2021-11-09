@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SATEvening.BLL.Exceptions;
 using SATEvening.BLL.Models;
 using SATEvening.BLL.Services.Interfaces;
+using SATEvening.DAL.Models;
 
 namespace SATEvening.Web.Controllers
 {
@@ -34,11 +35,11 @@ namespace SATEvening.Web.Controllers
             }
             catch (AlreadyExistsException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
             catch (BadRequestException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
         }
 
@@ -57,11 +58,36 @@ namespace SATEvening.Web.Controllers
             }
             catch (NotFoundException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
             catch (BadRequestException ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(new { Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return new BadRequestObjectResult(new { Message = "User or Code was null" });
+            }
+
+            try
+            {
+                await _authService.ConfirmEmail(userId, code);
+
+                return Redirect("/verified-email");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message });
+            }
+            catch (BadRequestException ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message });
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SATEvening.BLL.Exceptions;
@@ -20,6 +21,7 @@ namespace SATEvening.BLL.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
 
         public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
@@ -34,25 +36,57 @@ namespace SATEvening.BLL.Services
             _tokenService = tokenService;
         }
 
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,
+            IEmailService emailService)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _emailService = emailService;
+        }
+
+        public async Task<UserResponseModel> ConfirmEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("Could not confirm this user's email as they user does not exist");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+                throw new BadRequestException("Confirming Email Failed: Unable to validate email");
+            }
+
+            return new UserResponseModel
+            {
+                FullName = string.Join(" ", user.FirstName, user.LastName),
+                Email = user.Email,
+                Token = _tokenService.GenerateToken(user)
+            };
+        }
+
         public async Task<UserResponseModel> LoginAsync(LoginRequestModel login)
         {
-            var existingUser = await FindUserByName(login.UserName);
+            var existingUser = await FindUserByEmail(login.Email);
 
             if (existingUser == null)
             {
-                throw new NotFoundException(string.Format("Login Failed: Username {0} could not be found", login.UserName));
+                throw new NotFoundException(string.Format("Login Failed: Email {0} could not be found", login.Email));
             }
 
             var result = await _signInManager.PasswordSignInAsync(existingUser, login.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
-                throw new BadRequestException("Login Failed: The username or password was invalid");
+                throw new BadRequestException("Login Failed: The email or password was invalid");
             }
 
             return new UserResponseModel
             {
-                UserName = existingUser.UserName,
                 FullName = string.Join(" ", existingUser.FirstName, existingUser.LastName),
                 Email = existingUser.Email,
                 Token = _tokenService.GenerateToken(existingUser)
@@ -61,11 +95,11 @@ namespace SATEvening.BLL.Services
 
         public async Task<UserResponseModel> RegisterAsync(UserRequestModel user)
         {
-            var isExistingUser = await FindUserByName(user.UserName) != null;
+            var isExistingUser = await FindUserByEmail(user.Email) != null;
 
             if (isExistingUser)
             {
-                throw new AlreadyExistsException(string.Format("The username {0} already exists.", user.UserName));
+                throw new AlreadyExistsException(string.Format("The user with email {0} already exists.", user.UserName));
             }
 
             var result = await _userManager.CreateAsync(user, user.Password);
@@ -75,18 +109,19 @@ namespace SATEvening.BLL.Services
                 throw new BadRequestException(result.Errors.FirstOrDefault().Description);
             }
 
+            await _emailService.SendEmailAsync(user);
+
             return new UserResponseModel
             {
-                UserName = user.UserName,
                 FullName = string.Join(" ", user.FirstName, user.LastName),
                 Email = user.Email,
                 Token = _tokenService.GenerateToken(user)
             };
         }
 
-        private async Task<AppUser> FindUserByName(string username)
+        private async Task<AppUser> FindUserByEmail(string email)
         {
-            return await _userManager.FindByNameAsync(username);
+            return await _userManager.FindByEmailAsync(email);
         }
     }
 }
