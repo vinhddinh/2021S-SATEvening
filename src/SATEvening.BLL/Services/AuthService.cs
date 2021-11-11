@@ -89,6 +89,7 @@ namespace SATEvening.BLL.Services
             {
                 FullName = string.Join(" ", existingUser.FirstName, existingUser.LastName),
                 Email = existingUser.Email,
+                UserID = existingUser.Id,
                 Token = _tokenService.GenerateToken(existingUser)
             };
         }

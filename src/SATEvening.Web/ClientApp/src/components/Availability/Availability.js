@@ -49,8 +49,7 @@ export class Availability extends Component {
             savedCells: this.initState.savedCells,
             cells: this.initState.cells,
 
-            //userID: "b0855012-f026-4343-a40d-a26485292ba8"  //local
-            userID: "638d88e2-a229-46c7-bf2c-fe7235bd56d0"  //remote
+            userID: window.localStorage.getItem("userId")
         };
 
         this.availabilityService = new AvailabilityService();
